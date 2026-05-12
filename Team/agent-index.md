@@ -1,6 +1,6 @@
 # Team - Agent Index
 
-Routing table for the nine specialists shipped on day one. Larry reads this on every request to decide who handles what.
+Routing table for the team. Larry reads this on every request to decide who handles what. (The first nine specialists shipped on day one; new hires are added via [[SOP-001-how-to-add-a-new-specialist]].)
 
 | Specialist | Role | Folder | Routes to them when |
 |---|---|---|---|
@@ -13,6 +13,7 @@ Routing table for the nine specialists shipped on day one. Larry reads this on e
 | Charta | Infographic Designer | [[Team/Charta - Infographic Designer/AGENTS]] | Structured visual content — comparison tables, feature grids, decision guides, process flows, flowcharts, decision trees, timelines, swimlanes, hub-and-spoke diagrams, quadrant matrices, carousels, PDFs from clean HTML. Default owner of [[SOP-007-build-an-infographic]]. Reads from [[GL-003-design-system]]. Hands off to Pixel for stylization when needed. |
 | Pixel | Visual Specialist | [[Team/Pixel - Visual Specialist/AGENTS]] | Image stylization, multi-reference image generation, thumbnails, social images, hero illustrations, quote cards. Default owner of [[SOP-008-generate-a-styled-image]]. Reads from [[GL-003-design-system]]. When local image-gen isn't available, routes the connection half to Mack. |
 | Iris | Design System Architect | [[Team/Iris - Design System Architect/AGENTS]] | Brand and design-system work. Default author of [[GL-003-design-system]]. Default owner of [[SOP-009-author-a-design-system]] (the guided session that populates the design system) and [[SOP-010-audit-content-for-design-system-compliance]] (the visual-drift audit). Larry routes here first when a creative request lands and GL-003 is empty. |
+| Axle | API Gateway Engineer | [[Team/Axle - API Gateway Engineer/AGENTS]] | Kong AI Gateway as code — Konnect tenancy (Terraform Konnect provider), declarative gateway state (decK YAML, `deck diff` / `sync` / `dump`), K8s data-plane deploys (KIC, Helm, Kustomize), AI plugin composition (`ai-proxy[-advanced]`, `ai-prompt-guard`, `ai-rate-limiting-advanced`, `ai-semantic-cache`, `ai-sanitizer`), GitOps pipelines, drift triage between Konnect and the IaC repo, and gateway runbooks. Owns the [[kong-ai-gateway]] project. Routes here on any "Kong / Konnect / AI Gateway / declarative gateway config / IaC for the gateway / KIC / decK / Terraform Konnect provider / gateway runbook" cue. Hand back to Larry for app-layer code, model selection, RAG content, or general DXC infrastructure (cluster ops, Vault admin, network/firewall). |
 
 ## Bootstrap rule
 
