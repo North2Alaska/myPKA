@@ -3,3 +3,59 @@ __MACOSX/
 *.swp
 .obsidian/workspace*
 .obsidian/cache
+
+# ============================================================
+# Personal content — local only, never publish to fork
+# ============================================================
+
+# User identity / preferences
+PKM/.user.yaml
+
+# Journal entries (scaffolding under PKM/Journal/INDEX.md stays tracked)
+PKM/Journal/[0-9][0-9][0-9][0-9]/**/*.md
+
+# CRM entities
+PKM/CRM/People/*.md
+PKM/CRM/Organizations/*.md
+
+# Personal life entities (README.md / INDEX.md scaffolding stays tracked)
+PKM/My Life/Goals/*.md
+PKM/My Life/Habits/*.md
+PKM/My Life/Key Elements/*.md
+PKM/My Life/Projects/*.md
+PKM/My Life/Topics/*.md
+
+# Personal images & documents
+PKM/Images/[0-9][0-9][0-9][0-9]/
+PKM/Documents/*
+!PKM/Documents/INDEX.md
+!PKM/Documents/.gitkeep
+
+# ============================================================
+# Session history & per-agent journals — local only
+# ============================================================
+Team Knowledge/session-logs/[0-9][0-9][0-9][0-9]/
+Team/*/journal/*.md
+!Team/*/journal/_template.md
+
+# ============================================================
+# Research deliverables — default private; explicit -f to share
+# ============================================================
+Deliverables/*.md
+!Deliverables/README.md
+
+# ============================================================
+# Claude Code runtime
+# ============================================================
+.claude/settings.local.json
+
+# ============================================================
+# Obsidian vault config — local only
+# ============================================================
+.obsidian/
+
+# ============================================================
+# Larry identity overlay (user-specific; remove this line if you
+# want to share your CLAUDE.md as part of your fork)
+# ============================================================
+CLAUDE.md
