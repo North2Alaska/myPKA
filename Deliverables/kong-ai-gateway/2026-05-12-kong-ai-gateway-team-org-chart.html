@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kong AI Gateway — Phased Team Org-Chart | DXC 2026-05-13</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /*
+   * FALLBACK NO-STYLE MODE
+   * GL-003 §2 Color palette — not populated; fallback to enterprise-neutral palette (DXC B2B context).
+   * GL-003 §3 Typography — not populated; fallback to Inter (neutral enterprise sans-serif).
+   * GL-003 §4 Spacing scale — not populated; fallback to 8px base unit.
+   * Revisit all color/type/spacing values when GL-003 is populated by Iris.
+   */
+
+  /* ── Fallback design tokens ───────────────────────────── */
+  :root {
+    --color-canvas:       #F4F6F9;
+    --color-surface-0:    #FFFFFF;
+    --color-surface-1:    #EEF1F6;
+    --color-border:       #D0D7E3;
+    --color-text-head:    #0F1C2E;
+    --color-text-body:    #2C3A4D;
+    --color-text-muted:   #6B7A94;
+
+    --color-dedicated:    #1B4F8A;
+    --color-dedicated-bg: #E8F0FC;
+    --color-consumed:     #3A6B4F;
+    --color-consumed-bg:  #E4F3EC;
+    --color-governance:   #5C3A8A;
+    --color-governance-bg:#F0EAFA;
+    --color-operations:   #A64E1A;
+    --color-operations-bg:#FDF0E8;
+
+    --color-tier1:        #1B4F8A;
+    --color-tier2:        #1A6B5A;
+    --color-tier3:        #5C3A8A;
+    --color-tier1-bg:     #E8F0FC;
+    --color-tier2-bg:     #E4F3EC;
+    --color-tier3-bg:     #F0EAFA;
+
+    /* Environment tier colors */
+    --color-dev:          #6B3A00;
+    --color-dev-bg:       #FDF5E8;
+    --color-dev-border:   #D4860A;
+    --color-test:         #1A5C6B;
+    --color-test-bg:      #E4F3F8;
+    --color-test-border:  #2A8FA8;
+    --color-prod:         #6B1A1A;
+    --color-prod-bg:      #FDE8E8;
+    --color-prod-border:  #C83232;
+
+    /* Phase colors */
+    --color-phase1:       #1B4F8A;
+    --color-phase2:       #1A6B5A;
+    --color-phase3:       #5C3A8A;
+    --color-phase4:       #7A5800;
+
+    --sp-xs:  4px;
+    --sp-sm:  8px;
+    --sp-md:  16px;
+    --sp-lg:  24px;
+    --sp-xl:  32px;
+    --sp-2xl: 48px;
+
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --text-display: 26px;
+    --text-h1:      20px;
+    --text-h2:      15px;
+    --text-h3:      12px;
+    --text-body:    11px;
+    --text-caption: 10px;
+
+    --page-width: 1320px;
+    --radius:     8px;
+    --radius-sm:  4px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-family);
+    font-size: var(--text-body);
+    color: var(--color-text-body);
+    background: var(--color-canvas);
+    width: var(--page-width);
+    padding: var(--sp-xl) var(--sp-xl) var(--sp-2xl);
+    line-height: 1.45;
+  }
+
+  /* ── Header ───────────────────────────────────────────── */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: var(--sp-md);
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: var(--sp-xl);
+  }
+  .doc-header-left .eyebrow {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--sp-xs);
+  }
+  .doc-header-left h1 {
+    font-size: var(--text-display);
+    font-weight: 800;
+    color: var(--color-text-head);
+    line-height: 1.15;
+  }
+  .doc-header-right {
+    text-align: right;
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+  .doc-header-right strong {
+    color: var(--color-text-body);
+    font-weight: 600;
+  }
+
+  /* ── Section titles ───────────────────────────────────── */
+  .section-title {
+    font-size: var(--text-h2);
+    font-weight: 700;
+    color: var(--color-text-head);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-md);
+    padding-bottom: var(--sp-xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .section-subtitle {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    margin-bottom: var(--sp-lg);
+    margin-top: -8px;
+    line-height: 1.5;
+  }
+
+  /* ── GL-003 notice ────────────────────────────────────── */
+  .gl003-notice {
+    background: #FEF9E7;
+    border: 1px solid #F0D060;
+    border-radius: var(--radius-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    font-size: 9px;
+    color: #6B5C00;
+    margin-bottom: var(--sp-xl);
+  }
+  .gl003-notice strong { font-weight: 700; }
+
+  /* ── NEW DECISION CALLOUT ─────────────────────────────── */
+  .decision-callout {
+    background: #F0F7FF;
+    border: 1.5px solid #1B4F8A;
+    border-radius: var(--radius);
+    padding: var(--sp-md) var(--sp-lg);
+    margin-bottom: var(--sp-xl);
+  }
+  .decision-callout-title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-tier1);
+    margin-bottom: var(--sp-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .decision-callout p {
+    font-size: var(--text-caption);
+    color: var(--color-text-body);
+    line-height: 1.55;
+  }
+  .decision-callout p + p { margin-top: var(--sp-sm); }
+
+  /* ── Environment tiers section ───────────────────────── */
+  .env-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-lg);
+  }
+  .env-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1.5px solid;
+  }
+  .env-card.dev  { border-color: var(--color-dev-border);  }
+  .env-card.test { border-color: var(--color-test-border); }
+  .env-card.prod { border-color: var(--color-prod-border); }
+  .env-card-header {
+    padding: var(--sp-sm) var(--sp-md);
+    font-weight: 800;
+    font-size: var(--text-h1);
+    color: #fff;
+  }
+  .env-card.dev  .env-card-header { background: var(--color-dev-border);  }
+  .env-card.test .env-card-header { background: var(--color-test-border); }
+  .env-card.prod .env-card-header { background: var(--color-prod-border); }
+  .env-card-body {
+    padding: var(--sp-md);
+    background: var(--color-surface-0);
+  }
+  .env-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: var(--text-caption);
+    line-height: 1.45;
+    gap: var(--sp-sm);
+  }
+  .env-row-label {
+    font-weight: 700;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    min-width: 70px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 1px;
+  }
+  .env-row-value {
+    color: var(--color-text-body);
+    flex: 1;
+    line-height: 1.4;
+  }
+  .promotion-gate-note {
+    background: var(--color-surface-1);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    font-size: var(--text-caption);
+    color: var(--color-text-body);
+    line-height: 1.5;
+    margin-bottom: var(--sp-xl);
+  }
+  .promotion-gate-note strong { color: var(--color-text-head); }
+  .open-badge {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-dev-border);
+    background: var(--color-dev-bg);
+    border: 1px solid var(--color-dev-border);
+    border-radius: var(--radius-sm);
+    padding: 1px 6px;
+    vertical-align: middle;
+  }
+
+  /* ── Phase plan section ───────────────────────────────── */
+  .phase-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: var(--sp-md);
+  }
+  .phase-row-header {
+    grid-template-columns: 160px 1fr 1fr 1fr;
+    background: var(--color-surface-1);
+  }
+  .phase-cell {
+    background: var(--color-surface-0);
+    padding: var(--sp-sm) var(--sp-md);
+    font-size: var(--text-caption);
+    line-height: 1.45;
+    color: var(--color-text-body);
+  }
+  .phase-cell.label-cell {
+    background: var(--color-surface-1);
+    font-weight: 700;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+  }
+  .phase-name {
+    display: inline-block;
+    font-weight: 700;
+    font-size: var(--text-caption);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .phase-name.p1 { background: var(--color-phase1); }
+  .phase-name.p2 { background: var(--color-phase2); }
+  .phase-name.p3 { background: var(--color-phase3); }
+  .phase-name.p4 { background: var(--color-phase4); }
+
+  /* Phase x tier table */
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-caption);
+    margin-bottom: var(--sp-md);
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .matrix-table th {
+    padding: var(--sp-sm) var(--sp-md);
+    font-weight: 700;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    background: var(--color-surface-1);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .matrix-table td {
+    padding: var(--sp-sm) var(--sp-md);
+    border-bottom: 1px solid var(--color-surface-1);
+    vertical-align: top;
+    color: var(--color-text-body);
+    line-height: 1.45;
+  }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table .row-header {
+    font-weight: 700;
+    color: var(--color-text-head);
+    white-space: nowrap;
+  }
+  .tier-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    color: #fff;
+  }
+  .tier-badge.t1 { background: var(--color-tier1); }
+  .tier-badge.t2 { background: var(--color-tier2); }
+  .tier-badge.t3 { background: var(--color-tier3); }
+
+  /* Env x phase mini-table (within phase section) */
+  .env-phase-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: var(--sp-xl);
+    font-size: var(--text-caption);
+  }
+  .env-phase-cell {
+    padding: var(--sp-sm) 10px;
+    background: var(--color-surface-0);
+    line-height: 1.4;
+    color: var(--color-text-body);
+  }
+  .env-phase-cell.header {
+    background: var(--color-surface-1);
+    font-weight: 700;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+  }
+  .env-phase-cell.env-dev  { background: var(--color-dev-bg);  border-left: 3px solid var(--color-dev-border);  }
+  .env-phase-cell.env-test { background: var(--color-test-bg); border-left: 3px solid var(--color-test-border); }
+  .env-phase-cell.env-prod { background: var(--color-prod-bg); border-left: 3px solid var(--color-prod-border); }
+
+  /* ── Skill gap callout ─────────────────────────────────── */
+  .skill-gap-callout {
+    background: #FFFBF0;
+    border: 1.5px solid #D4860A;
+    border-radius: var(--radius);
+    padding: var(--sp-md) var(--sp-lg);
+    margin-bottom: var(--sp-xl);
+  }
+  .skill-gap-title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: #7A4A00;
+    margin-bottom: var(--sp-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+  }
+  .skill-gap-title .nolan-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: #D4860A;
+    color: #fff;
+  }
+  .skill-gap-list {
+    list-style: none;
+    padding: 0;
+  }
+  .skill-gap-list li {
+    font-size: var(--text-caption);
+    color: var(--color-text-body);
+    padding: 5px 0 5px var(--sp-md);
+    position: relative;
+    border-bottom: 1px solid #FDECC8;
+    line-height: 1.45;
+  }
+  .skill-gap-list li:last-child { border-bottom: none; }
+  .skill-gap-list li::before {
+    content: "▲";
+    position: absolute;
+    left: 0;
+    font-size: 8px;
+    color: #D4860A;
+    top: 6px;
+  }
+  .skill-gap-list li strong { color: var(--color-text-head); }
+
+  /* ── Legend ───────────────────────────────────────────── */
+  .legend-strip {
+    display: flex;
+    gap: var(--sp-lg);
+    flex-wrap: wrap;
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--sp-md) var(--sp-lg);
+    margin-bottom: var(--sp-xl);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    font-size: var(--text-caption);
+  }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+  .legend-label { font-weight: 600; }
+  .legend-desc  { color: var(--color-text-muted); }
+  .legend-sep   { width: 1px; background: var(--color-border); }
+
+  /* ── Tier comparison strip ────────────────────────────── */
+  .tier-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-xl);
+  }
+  .tier-card {
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .tier-card-header {
+    padding: var(--sp-md) var(--sp-lg);
+    color: #fff;
+  }
+  .tier-card-header.t1 { background: var(--color-tier1); }
+  .tier-card-header.t2 { background: var(--color-tier2); }
+  .tier-card-header.t3 { background: var(--color-tier3); }
+  .tier-card-header .tier-label {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 2px;
+  }
+  .tier-card-header h2 {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .tier-card-header .tier-timeline {
+    margin-top: var(--sp-xs);
+    font-size: var(--text-caption);
+    opacity: 0.8;
+    font-weight: 500;
+  }
+  .tier-card-body {
+    padding: var(--sp-md) var(--sp-lg);
+  }
+  .tier-stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-sm);
+    margin-bottom: var(--sp-md);
+  }
+  .tier-stat {
+    background: var(--color-surface-1);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-sm) var(--sp-md);
+  }
+  .tier-stat .stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+  }
+  .tier-stat .stat-value {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-text-head);
+    line-height: 1.2;
+  }
+  .tier-stat.full-width { grid-column: 1 / -1; }
+  .tier-scope {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: var(--sp-md);
+    padding-bottom: var(--sp-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tier-phase-env-note {
+    font-size: 9px;
+    background: var(--color-surface-1);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    margin-top: var(--sp-sm);
+    line-height: 1.45;
+    color: var(--color-text-body);
+  }
+  .tier-phase-env-note .note-label {
+    font-weight: 700;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: 3px;
+  }
+  .tier-oncall-note {
+    font-size: 9px;
+    color: var(--color-text-muted);
+    font-style: italic;
+    line-height: 1.4;
+    margin-top: var(--sp-sm);
+  }
+
+  /* ── Tier panels (org charts) ─────────────────────────── */
+  .tier-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-xl);
+    position: relative;
+  }
+  .tier-panel {
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--sp-lg);
+    position: relative;
+  }
+  .tier-panel-title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: #fff;
+    padding: var(--sp-xs) var(--sp-md);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--sp-md);
+    display: inline-block;
+  }
+  .tier-panel-title.t1 { background: var(--color-tier1); }
+  .tier-panel-title.t2 { background: var(--color-tier2); }
+  .tier-panel-title.t3 { background: var(--color-tier3); }
+
+  .role-group { margin-bottom: var(--sp-sm); }
+  .role-group-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--sp-xs);
+    margin-top: var(--sp-sm);
+  }
+  .role-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-sm) var(--sp-sm) 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    border-left: 3px solid transparent;
+    background: var(--color-surface-1);
+  }
+  .role-card.dedicated  { border-color: var(--color-dedicated);  background: var(--color-dedicated-bg); }
+  .role-card.consumed   { border-color: var(--color-consumed);   background: var(--color-consumed-bg); }
+  .role-card.governance { border-color: var(--color-governance); background: var(--color-governance-bg); }
+  .role-card.operations { border-color: var(--color-operations); background: var(--color-operations-bg); }
+  .role-card-main { flex: 1; min-width: 0; }
+  .role-name {
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--color-text-head);
+    line-height: 1.3;
+  }
+  .role-note {
+    font-size: 9px;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+    margin-top: 2px;
+  }
+  .role-fte {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: center;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    color: #fff;
+  }
+  .role-card.dedicated  .role-fte { background: var(--color-dedicated); }
+  .role-card.consumed   .role-fte { background: var(--color-consumed); }
+  .role-card.governance .role-fte { background: var(--color-governance); }
+  .role-card.operations .role-fte { background: var(--color-operations); }
+
+  /* ── Transition triggers ──────────────────────────────── */
+  .transitions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-md);
+    margin-bottom: var(--sp-xl);
+  }
+  .transition-card {
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--sp-md) var(--sp-lg);
+  }
+  .transition-card-title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-text-head);
+    margin-bottom: var(--sp-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+  }
+  .transition-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    color: #fff;
+  }
+  .t-badge-t1 { background: var(--color-tier1); }
+  .t-badge-t2 { background: var(--color-tier2); }
+  .trigger-rule {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-bottom: var(--sp-sm);
+  }
+  .trigger-list { list-style: none; padding: 0; }
+  .trigger-list li {
+    font-size: var(--text-caption);
+    color: var(--color-text-body);
+    padding: 3px 0 3px var(--sp-md);
+    position: relative;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--color-surface-1);
+  }
+  .trigger-list li:last-child { border-bottom: none; }
+  .trigger-list li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+
+  /* ── On-call math ─────────────────────────────────────── */
+  .oncall-section {
+    background: var(--color-surface-0);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--sp-lg);
+    margin-bottom: var(--sp-xl);
+  }
+  .oncall-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--sp-lg);
+    align-items: start;
+  }
+  .oncall-headline {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-text-head);
+    margin-bottom: var(--sp-sm);
+  }
+  .oncall-key-stat {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--color-tier2);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .oncall-key-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--sp-md);
+  }
+  .oncall-tier-list { list-style: none; }
+  .oncall-tier-list li {
+    font-size: var(--text-caption);
+    color: var(--color-text-body);
+    padding: 3px 0;
+    display: flex;
+    gap: var(--sp-sm);
+    align-items: baseline;
+  }
+  .oncall-tier-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .geo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-caption);
+  }
+  .geo-table th {
+    background: var(--color-surface-1);
+    color: var(--color-text-head);
+    font-weight: 700;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px var(--sp-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .geo-table td {
+    padding: 6px var(--sp-md);
+    border-bottom: 1px solid var(--color-surface-1);
+    color: var(--color-text-body);
+    vertical-align: top;
+  }
+  .geo-table tr:last-child td { border-bottom: none; }
+  .geo-region { font-weight: 600; color: var(--color-text-head); }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  .doc-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--sp-md);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--sp-xl);
+  }
+  .doc-footer .footer-left {
+    font-size: 9px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+  .doc-footer .footer-right {
+    font-size: 9px;
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .gl003-notice { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gl003-notice">
+  <strong>Design system note:</strong> GL-003 §2 (Color palette), §3 (Typography), §4 (Spacing scale) are not yet populated. This infographic uses enterprise-neutral fallback values. Revisit and re-render when Iris populates GL-003.
+</div>
+
+<!-- ── Header ─────────────────────────────────────────── -->
+<header class="doc-header">
+  <div class="doc-header-left">
+    <div class="eyebrow">DXC Technology — Internal Staffing Model</div>
+    <h1>Kong AI Gateway<br>Phased Team Org-Chart</h1>
+  </div>
+  <div class="doc-header-right">
+    <div><strong>Prepared for:</strong> Jesse Swensen, DXC</div>
+    <div><strong>Date:</strong> 2026-05-12 (revised 2026-05-13)</div>
+    <div><strong>Status:</strong> Draft — Internal Use Only</div>
+    <div><strong>Scope:</strong> 130,000-employee enterprise AI traffic gateway</div>
+  </div>
+</header>
+
+<!-- ── Foundational decisions callout (2026-05-13) ─────── -->
+<div class="decision-callout">
+  <div class="decision-callout-title">New Foundational Decisions — 2026-05-13</div>
+  <p><strong>Two axes now govern the program.</strong> They are correlated but not coincident. Read both together to understand hiring, environment, and workload scope at any point in time.</p>
+  <p><strong>Maturity tiers (Tier 1 / 2 / 3)</strong> describe the team shape — FTE count, coverage posture, governance model. The tier axis is the left column of every comparison in this document.</p>
+  <p><strong>Implementation phases (Phase 1–4)</strong> describe gateway workload coverage — what AI traffic is in scope and what enforcement posture applies. Phases progress through Dev → Test → Prod under their own promotion gates, independently of which tier the team is at. See the Phase Plan section below for the full interaction.</p>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: ENVIRONMENT TIERS
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">Environment Tiers — Dev / Test / Prod</div>
+<div class="section-subtitle">Decision locked 2026-05-13. Every workload at every phase passes through these three environments in sequence under PR-gated promotion gates.</div>
+
+<div class="env-grid">
+  <div class="env-card dev">
+    <div class="env-card-header">Dev</div>
+    <div class="env-card-body">
+      <div class="env-row">
+        <div class="env-row-label">Purpose</div>
+        <div class="env-row-value">Engineering iteration, plugin-chain experimentation, integration testing against mocked / sandbox model endpoints. Drift acceptable; never promotes.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Traffic</div>
+        <div class="env-row-value">Synthetic + sandbox provider endpoints. No real DXC employee traffic.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Owners</div>
+        <div class="env-row-value">Gateway engineering (Role 1), DevOps (Role 2). Self-service for engineering.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">On-call</div>
+        <div class="env-row-value">Best-effort, business hours. Engineer who last touched the relevant route.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="env-card test">
+    <div class="env-card-header">Test</div>
+    <div class="env-card-body">
+      <div class="env-row">
+        <div class="env-row-label">Purpose</div>
+        <div class="env-row-value">Stakeholder UAT, security scanning (Garak, promptfoo, plugin-chain red-team), performance / load testing. Last stop before real users.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Traffic</div>
+        <div class="env-row-value">Mirrored / shadow traffic; controlled stakeholder cohorts; security and load harnesses.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Owners</div>
+        <div class="env-row-value">Gateway engineering + AI-security (Role 5) + Compliance (Role 9) for UAT sign-off.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">On-call</div>
+        <div class="env-row-value">Gateway practice owns during UAT windows. Working-hours escalation otherwise.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="env-card prod">
+    <div class="env-card-header">Prod</div>
+    <div class="env-card-body">
+      <div class="env-row">
+        <div class="env-row-label">Purpose</div>
+        <div class="env-row-value">Live enterprise traffic for 130k DXC employees. Only env touching real provider keys with real cost attribution.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Traffic</div>
+        <div class="env-row-value">All real DXC AI traffic governed by the gateway.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">Owners</div>
+        <div class="env-row-value">Gateway engineering + on-call rotation (Role 12). Tier-1 NOC (Role 11) from Tier 2+.</div>
+      </div>
+      <div class="env-row">
+        <div class="env-row-label">On-call</div>
+        <div class="env-row-value">Only environment in the formal PagerDuty rotation. See on-call math below.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="promotion-gate-note">
+  <strong>Standard promotion gate: Dev → Test → Prod.</strong> Every gateway-entity change (decK YAML) and every tenancy change (Terraform) passes through PR-gated <code>deck diff</code> / <code>terraform plan</code> review against each environment in sequence. No change reaches Prod that hasn't been verified in Test. Emergency hot-fixes get a 24h back-fill PR. &nbsp;<span class="open-badge">Open — arch team confirms Konnect env pattern (Row 3)</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: PHASE PLAN
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">Phase Plan — Four Implementation Phases</div>
+<div class="section-subtitle">Decision locked 2026-05-13. Phases describe workload coverage and enforcement posture. Each phase progresses independently through Dev → Test → Prod.</div>
+
+<!-- Phase definitions row -->
+<div class="phase-row">
+  <div class="phase-cell label-cell">Phase</div>
+  <div class="phase-cell label-cell">Posture</div>
+  <div class="phase-cell label-cell">What lands</div>
+  <div class="phase-cell label-cell">Entry gate</div>
+
+  <div class="phase-cell" style="background:var(--color-tier1-bg); border-left:3px solid var(--color-phase1);">
+    <div><span class="phase-name p1">Phase 1 — Discover</span></div>
+  </div>
+  <div class="phase-cell">Observe-only. Gateway is a passive sensor.</div>
+  <div class="phase-cell">Route all AI traffic to inventory it. File Log + OTel only — no enforcement plugins. Builds the risk inventory. Shadow AI surfaces here.</div>
+  <div class="phase-cell">Arch sign-off + first Dev/Test/Prod control planes provisioned + first data plane deployed.</div>
+
+  <div class="phase-cell" style="background:var(--color-tier2-bg); border-left:3px solid var(--color-phase2);">
+    <div><span class="phase-name p2">Phase 2 — Pareto risk reduction</span></div>
+  </div>
+  <div class="phase-cell">Enforcing on the highest-risk 20% of traffic (80% of risk).</div>
+  <div class="phase-cell"><code>ai-prompt-guard</code>, <code>ai-sanitizer</code>, <code>ai-rate-limiting-advanced</code> on real routes. Plugin-chain reviews per route mandatory. AI-security team becomes load-bearing.</div>
+  <div class="phase-cell">Phase 1 risk inventory complete; AI-security policy authored; UAT in Test passes against shadow traffic.</div>
+
+  <div class="phase-cell" style="background:var(--color-tier3-bg); border-left:3px solid var(--color-phase3);">
+    <div><span class="phase-name p3">Phase 3 — Agentic workloads</span></div>
+  </div>
+  <div class="phase-cell">Enforcing on tool-use / MCP / multi-step agent traffic.</div>
+  <div class="phase-cell">Routes for MCP servers, agent orchestrators, tool-using LLMs. Long-running session handling, multi-step trace correlation, per-tool authorization. Likely net-new tooling.</div>
+  <div class="phase-cell">Phase 2 policy stable in Prod; agent workloads identified; MCP / agent expertise on team (see skill-gap note).</div>
+
+  <div class="phase-cell" style="background:#FEFAF0; border-left:3px solid var(--color-phase4);">
+    <div><span class="phase-name p4">Phase 4 — Everything else</span></div>
+  </div>
+  <div class="phase-cell">Full governance catch-all.</div>
+  <div class="phase-cell">Remaining workloads under same plugin / observability / compliance regime. BU-liaison model is the scaling mechanism.</div>
+  <div class="phase-cell">Phase 3 stable; federation model designed; embedded BU champions onboarded.</div>
+</div>
+
+<!-- Phase × Tier interaction table -->
+<div style="margin-bottom: var(--sp-sm); font-size: var(--text-caption); font-weight:700; color:var(--color-text-head); text-transform:uppercase; letter-spacing:0.06em;">Phase × Tier Interaction</div>
+<table class="matrix-table" style="margin-bottom:var(--sp-lg);">
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Typical tier</th>
+      <th>Staffing implication</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="row-header"><span class="phase-name p1" style="font-size:9px;">Phase 1 — Discover</span></td>
+      <td><span class="tier-badge t1">Tier 1</span> primary</td>
+      <td>Observe-only posture matches Tier 1 staffing reality. Observability lift (Role 3) is the dominant workload — pull Role 3 forward to 0.5 FTE in late Tier 1 rather than waiting for Tier 2 entry.</td>
+    </tr>
+    <tr>
+      <td class="row-header"><span class="phase-name p2" style="font-size:9px;">Phase 2 — Pareto risk</span></td>
+      <td><span class="tier-badge t1">Tier 1</span> → <span class="tier-badge t2">Tier 2</span> transition</td>
+      <td>Enforcement on real traffic triggers dedicated AI-security headcount (Role 5 moves consumed → dedicated). Compliance partner becomes embedded. Phase 2 entry is the clearest Tier 1 → Tier 2 trigger.</td>
+    </tr>
+    <tr>
+      <td class="row-header"><span class="phase-name p3" style="font-size:9px;">Phase 3 — Agentic</span></td>
+      <td><span class="tier-badge t2">Tier 2</span></td>
+      <td>MCP / agent / tool-use expertise is an <strong>explicit skill gap</strong> — none of Roles 1–13 carry it. Decision needed 3–4 months before Phase 3 entry: net-new hire, upskill Role 1 senior, or contract onramp specialist. See skill-gap callout below.</td>
+    </tr>
+    <tr>
+      <td class="row-header"><span class="phase-name p4" style="font-size:9px;">Phase 4 — Everything else</span></td>
+      <td><span class="tier-badge t3">Tier 3</span></td>
+      <td>BU-liaison model (Role 13) is the scaling mechanism for onboarding the long tail. Central team focuses on platform health and federation governance.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Phase × Env-tier interaction grid -->
+<div style="margin-bottom: var(--sp-sm); font-size: var(--text-caption); font-weight:700; color:var(--color-text-head); text-transform:uppercase; letter-spacing:0.06em;">Phase × Environment-Tier Interaction</div>
+<div class="env-phase-grid">
+  <div class="env-phase-cell header">Env</div>
+  <div class="env-phase-cell header">Phase 1 — Discover</div>
+  <div class="env-phase-cell header">Phase 2 — Pareto risk</div>
+  <div class="env-phase-cell header">Phase 3 — Agentic</div>
+  <div class="env-phase-cell header">Phase 4 — Everything</div>
+
+  <div class="env-phase-cell env-dev" style="font-weight:700; color:var(--color-dev);">Dev</div>
+  <div class="env-phase-cell env-dev">Synthetic / shadow traffic. Validate File Log + OTel pipeline config.</div>
+  <div class="env-phase-cell env-dev">Plugin-chain experimentation against shadow traffic. Candidate plugin set tested.</div>
+  <div class="env-phase-cell env-dev">MCP / agent route experimentation. New plugin compositions prototyped.</div>
+  <div class="env-phase-cell env-dev">Catch-all route onboarding. BU champions operate Dev namespace for their BU.</div>
+
+  <div class="env-phase-cell env-test" style="font-weight:700; color:var(--color-test);">Test</div>
+  <div class="env-phase-cell env-test">Stakeholder UAT on observe-only routes. Validate File Log + OTel pipelines.</div>
+  <div class="env-phase-cell env-test">Security and load harnesses against candidate plugin set. AI-security UAT sign-off.</div>
+  <div class="env-phase-cell env-test">Agent session load testing, per-tool authorization validation, trace correlation checks.</div>
+  <div class="env-phase-cell env-test">Full plugin / observability / compliance regime validated before Prod promotion.</div>
+
+  <div class="env-phase-cell env-prod" style="font-weight:700; color:var(--color-prod);">Prod</div>
+  <div class="env-phase-cell env-prod">Real DXC AI traffic, gateway-routed but unenforced. Risk inventory is built here.</div>
+  <div class="env-phase-cell env-prod">Enforcement on the high-risk 20%. First live enforcing policies. FinOps attribution active.</div>
+  <div class="env-phase-cell env-prod">Agent / MCP routes in production. New on-call runbooks for agent-session incidents.</div>
+  <div class="env-phase-cell env-prod">All DXC workloads under full governance. Chargeback model covers entire portfolio.</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: SKILL GAP CALLOUT
+═════════════════════════════════════════════════════════ -->
+<div class="skill-gap-callout">
+  <div class="skill-gap-title">
+    Skill Gaps Surfaced by the Phase Plan
+    <span class="nolan-badge">For Nolan — Hiring Sequence</span>
+  </div>
+  <ul class="skill-gap-list">
+    <li>
+      <strong>Phase 3 — MCP / agent / tool-use expertise.</strong>
+      None of Roles 1–13 explicitly carry this. Kong 3.x AI catalog does not yet have first-class MCP-aware audit or agent-session rate-limiting plugins — composition patterns are still being established. Decision needed 3–4 months before Phase 3 entry:
+      (a) net-new senior hire with explicit MCP / agentic-workload experience — cleanest, slowest to source;
+      (b) upskill an existing Role 1 senior with paid training time and an agent-platform mentor — cheapest, riskiest on timeline;
+      (c) contract a Phase 3 onramp specialist for the first 6 months while option (a) or (b) is built — most flexible, highest cost.
+    </li>
+    <li>
+      <strong>Phase 1 — Observability-lift weighting.</strong>
+      Role 3 (Observability Engineer) is sized for Tier 2 steady state, but Phase 1 is observability-dominant by design. Tier 1 may need to over-index on observability earlier — pull Role 3 forward to 0.5 FTE in late Tier 1, or lean hard on the consumed DXC observability team during Phase 1. Nolan + Pax conversation on Role 3 sourcing recommended.
+    </li>
+    <li>
+      <strong>Env-tier coverage in Tier 1.</strong>
+      Three Konnect control planes (Dev / Test / Prod) is a 3× multiplier on configuration surface area at Tier 1. Current Tier 1 FTE (1.0 Role 1, 0.5–1.0 Role 2) may be tight. The Tier 1 → Tier 2 trigger of "P1 incident caused by single-point-of-failure" is more likely to fire earlier under the three-env model.
+    </li>
+  </ul>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: LEGEND
+═════════════════════════════════════════════════════════ -->
+<div class="legend-strip">
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:var(--color-dedicated)"></div>
+    <span class="legend-label">Dedicated</span>
+    <span class="legend-desc">FTE owned by the gateway practice</span>
+  </div>
+  <div class="legend-sep"></div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:var(--color-consumed)"></div>
+    <span class="legend-label">Consumed / Consumed (earmarked)</span>
+    <span class="legend-desc">FTE from adjacent DXC teams; earmarked = named contact + SLA-backed</span>
+  </div>
+  <div class="legend-sep"></div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:var(--color-governance)"></div>
+    <span class="legend-label">Governance</span>
+    <span class="legend-desc">Architect / Tech Lead — technical direction &amp; escalation</span>
+  </div>
+  <div class="legend-sep"></div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:var(--color-operations)"></div>
+    <span class="legend-label">Operations</span>
+    <span class="legend-desc">NOC &amp; on-call rotation — shared or rotation-based</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: TIER COMPARISON STRIP
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">Tier Comparison — Growth Path at a Glance</div>
+
+<div class="tier-strip">
+  <!-- Tier 1 -->
+  <div class="tier-card">
+    <div class="tier-card-header t1">
+      <div class="tier-label">Tier 1 · On-ramp</div>
+      <h2>Pilot</h2>
+      <div class="tier-timeline">0–6 months · First production routes</div>
+    </div>
+    <div class="tier-card-body">
+      <div class="tier-scope">Single region · 10–25 AI routes · 1–2 early-adopter BUs · Architecture decisions still landing · Business-hours coverage + best-effort after-hours</div>
+      <div class="tier-stat-row">
+        <div class="tier-stat">
+          <div class="stat-label">Dedicated FTE</div>
+          <div class="stat-value">1.5–2.0</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">AI Routes</div>
+          <div class="stat-value">10–25</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">BUs Served</div>
+          <div class="stat-value">1–2</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">On-call SLA</div>
+          <div class="stat-value">Best-effort</div>
+        </div>
+        <div class="tier-stat full-width">
+          <div class="stat-label">Consumed Partners (active from Day 1)</div>
+          <div class="stat-value" style="font-size:10px;">AI Security · Compliance · Platform SRE · LLM Platform</div>
+        </div>
+      </div>
+      <div class="tier-phase-env-note">
+        <div class="note-label">Phase &amp; Env coverage at Tier 1</div>
+        <strong>Phase 1 (Discover)</strong> is the primary workload. Phase 2 entry is the Tier 1 → Tier 2 trigger. Phases 3/4 not in scope.<br>
+        All three envs (Dev / Test / Prod) stand up at go-live. Sole gateway engineer owns ops across all three — 3× config surface is a declared risk.
+      </div>
+      <div class="tier-oncall-note">⚠ 1 gateway engineer = on-call every week. Unsustainable beyond 3–6 months. Plan Tier 2 within 12 months of go-live.</div>
+    </div>
+  </div>
+
+  <!-- Tier 2 -->
+  <div class="tier-card">
+    <div class="tier-card-header t2">
+      <div class="tier-label">Tier 2 · Target state</div>
+      <h2>Production Enterprise Platform</h2>
+      <div class="tier-timeline">6–18 months · Multi-region, multi-BU</div>
+    </div>
+    <div class="tier-card-body">
+      <div class="tier-scope">2–3 region data planes · 24/7 on-call SLA · Hundreds of AI routes · Dedicated AI-security team · FinOps dashboards · Embedded compliance partners</div>
+      <div class="tier-stat-row">
+        <div class="tier-stat">
+          <div class="stat-label">Dedicated FTE</div>
+          <div class="stat-value">20–32</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">AI Routes</div>
+          <div class="stat-value">100s</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">BUs Served</div>
+          <div class="stat-value">Multi-BU</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">On-call SLA</div>
+          <div class="stat-value">24/7</div>
+        </div>
+        <div class="tier-stat full-width">
+          <div class="stat-label">Consumed / Earmarked</div>
+          <div class="stat-value" style="font-size:10px;">3–5 FTE Platform/K8s SRE (earmarked) · Tier-1 NOC (shared service)</div>
+        </div>
+      </div>
+      <div class="tier-phase-env-note">
+        <div class="note-label">Phase &amp; Env coverage at Tier 2</div>
+        <strong>Phase 2 (Pareto risk)</strong> at steady state across multi-BU traffic.<br>
+        <strong>Phase 3 (Agentic)</strong> entry happens during Tier 2 — MCP / agent skill gap must be resolved before Phase 3 entry. Flag for Nolan early in Tier 2 build-out.<br>
+        Dev / Test / Prod each scale to multi-region. Prod carries full FinOps + chargeback observability stack.
+      </div>
+      <div class="tier-oncall-note">Min 6 gateway engineers across 2–3 regions for credible 1-in-6 rotation. Below 4 globally = burnout territory.</div>
+    </div>
+  </div>
+
+  <!-- Tier 3 -->
+  <div class="tier-card">
+    <div class="tier-card-header t3">
+      <div class="tier-label">Tier 3 · Mature</div>
+      <h2>Federated Platform</h2>
+      <div class="tier-timeline">18+ months · True enterprise product</div>
+    </div>
+    <div class="tier-card-body">
+      <div class="tier-scope">Federation model · Central platform team + embedded BU liaisons per major BU · Published SLAs · Developer portal · Chargeback model · Red-team on quarterly cadence</div>
+      <div class="tier-stat-row">
+        <div class="tier-stat">
+          <div class="stat-label">Total Practice</div>
+          <div class="stat-value">30–50+</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">Central FTE</div>
+          <div class="stat-value">~20–30</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">BU Liaisons</div>
+          <div class="stat-value">10–20+</div>
+        </div>
+        <div class="tier-stat">
+          <div class="stat-label">On-call SLA</div>
+          <div class="stat-value">1-in-8+</div>
+        </div>
+        <div class="tier-stat full-width">
+          <div class="stat-label">Consumed / Earmarked</div>
+          <div class="stat-value" style="font-size:10px;">5–8 FTE Platform/K8s SRE (earmarked) · Tier-1 NOC (shared service)</div>
+        </div>
+      </div>
+      <div class="tier-phase-env-note">
+        <div class="note-label">Phase &amp; Env coverage at Tier 3</div>
+        <strong>Phase 4 (Everything else)</strong> — BU-liaison model is the scaling mechanism for the long tail.<br>
+        Phases 1–3 all in steady state; new application discovery (Phase 1) runs continuously.<br>
+        BU champions hold merge rights to their BU's namespace in each env's control plane. Prod still under central on-call.
+      </div>
+      <div class="tier-oncall-note">BU liaisons resolve routine route issues before escalation — central rotation stays comfortable even past 20 BUs.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: PER-TIER ORG CHART PANELS
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">Per-Tier Team Structure</div>
+
+<div class="tier-panels">
+
+  <!-- ── Tier 1 Panel ── -->
+  <div class="tier-panel">
+    <span class="tier-panel-title t1">Tier 1 — Pilot</span>
+
+    <div class="role-group">
+      <div class="role-group-label">Governance</div>
+      <div class="role-card governance">
+        <div class="role-card-main">
+          <div class="role-name">Architect / Tech Lead</div>
+          <div class="role-note">Sets IaC patterns, owns Konnect tenancy decision (Option A vs B), escalation point</div>
+        </div>
+        <span class="role-fte governance">0.2 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Dedicated Core</div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Kong Gateway Engineer / SRE</div>
+          <div class="role-note">Sole gateway owner — decK YAML, Terraform (3 env control planes), AI plugin composition, on-call (best-effort). Must be staff/principal level.</div>
+        </div>
+        <span class="role-fte">1.0 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">DevOps / GitOps Engineer</div>
+          <div class="role-note">CI pipelines, Helm chart mgmt, env promotion (Dev → Test → Prod gate). May be shared from platform pod early on.</div>
+        </div>
+        <span class="role-fte">0.5–1.0 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Product / Program Manager</div>
+          <div class="role-note">Defines AI routes needed, BU prioritization, internal SLA commitment</div>
+        </div>
+        <span class="role-fte">0.2 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Consumed (Active Partners — Day 1 Mandatory)</div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">AI-Aware Security Engineer</div>
+          <div class="role-note">Active in route onboarding, plugin reviews, threat modeling from day one — not a quarterly reviewer. Load-bearing at Phase 2 entry.</div>
+        </div>
+        <span class="role-fte consumed">Consumed</span>
+      </div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">Compliance / Data-Privacy Officer</div>
+          <div class="role-note">Active from day one on any route touching regulated data. GDPR cannot be retrofitted.</div>
+        </div>
+        <span class="role-fte consumed">Consumed</span>
+      </div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">Platform / Kubernetes SRE</div>
+          <div class="role-note">K8s namespace, cluster access, network policies, cert-manager for all three envs. Named contact required — not queue-shared.</div>
+        </div>
+        <span class="role-fte consumed">Consumed (earmarked)</span>
+      </div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">LLM Platform / Model Engineer</div>
+          <div class="role-note">Provider API key lifecycle per env (sandbox / staging / prod keys). Joint key-rotation runbook.</div>
+        </div>
+        <span class="role-fte consumed">Consumed</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Operations</div>
+      <div class="role-card operations">
+        <div class="role-card-main">
+          <div class="role-name">On-call (Prod only)</div>
+          <div class="role-note">Gateway engineer carries on-call every week — declared risk, not a baseline. Dev/Test are best-effort working hours.</div>
+        </div>
+        <span class="role-fte operations">1 eng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tier 2 Panel ── -->
+  <div class="tier-panel">
+    <span class="tier-panel-title t2">Tier 2 — Production</span>
+
+    <div class="role-group">
+      <div class="role-group-label">Governance</div>
+      <div class="role-card governance">
+        <div class="role-card-main">
+          <div class="role-name">Architect / Tech Lead</div>
+          <div class="role-note">Full-time staff/principal. Technical roadmap, plugin-ecosystem, Konnect upgrades, federation model design</div>
+        </div>
+        <span class="role-fte governance">1.0 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Dedicated Core (Gateway Engineering)</div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Kong Gateway Engineer / SRE</div>
+          <div class="role-note">Distributed across 2–3 regions for follow-the-sun. Non-negotiable floor for credible 24/7 SLA. Phase 3 MCP hire or upskill needed during this tier.</div>
+        </div>
+        <span class="role-fte">6–10 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">DevOps / GitOps Engineer</div>
+          <div class="role-note">Platform automation, config pipelines (deck diff/Terraform for all envs), release management</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Observability Engineer</div>
+          <div class="role-note">OTel pipelines at billions-of-spans scale, FinOps dashboards, token-usage attribution per BU, anomaly detection</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Dedicated — Security, Platform, Compliance &amp; PM</div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">AI-Aware Security Engineer</div>
+          <div class="role-note">Dedicated team — not a single engineer. Plugin-chain threat modeling, red-team cadence (Garak, promptfoo), guardrails-bypass dossier</div>
+        </div>
+        <span class="role-fte">3–5 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">LLM Platform / Model Engineer</div>
+          <div class="role-note">Enterprise provider procurement, fallback orchestration, eval infrastructure for model-version upgrades. Per-env key lifecycle at hundreds-of-routes scale.</div>
+        </div>
+        <span class="role-fte">1–2 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Compliance / Data-Privacy Officer</div>
+          <div class="role-note">GDPR, regional data-residency, sector-specific overlays (healthcare/finance/gov). Embedded — not fractional.</div>
+        </div>
+        <span class="role-fte">1–2 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Product / Program Manager</div>
+          <div class="role-note">Route roadmap, self-service portal, consumer onboarding, chargeback model, stakeholder narrative</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Consumed / Earmarked</div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">Platform / Kubernetes SRE</div>
+          <div class="role-note">3–5 FTE earmarked from DXC platform org. Named contacts per region. SLA-backed — P1/P2 in minutes, not days.</div>
+        </div>
+        <span class="role-fte consumed">3–5 FTE earmarked</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Operations</div>
+      <div class="role-card operations">
+        <div class="role-card-main">
+          <div class="role-name">Tier-1 NOC</div>
+          <div class="role-note">SLA-backed 24/7 first-line triage. Multi-region. Likely shared DXC NOC service.</div>
+        </div>
+        <span class="role-fte operations">Shared svc</span>
+      </div>
+      <div class="role-card operations">
+        <div class="role-card-main">
+          <div class="role-name">Tier-2 On-call (PagerDuty rotation)</div>
+          <div class="role-note">Drawn from gateway engineers (Prod only). Target: 1-in-6 rotation = ~8–9 on-call weeks/year per engineer.</div>
+        </div>
+        <span class="role-fte operations">6 eng min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tier 3 Panel ── -->
+  <div class="tier-panel">
+    <span class="tier-panel-title t3">Tier 3 — Federated</span>
+
+    <div class="role-group">
+      <div class="role-group-label">Central Platform Team — Governance</div>
+      <div class="role-card governance">
+        <div class="role-card-main">
+          <div class="role-name">Architect / Tech Lead</div>
+          <div class="role-note">Technical roadmap, cross-BU standards, major platform decisions (Konnect major version, new plugin tier evaluation)</div>
+        </div>
+        <span class="role-fte governance">1–2 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Central Platform Team — Dedicated</div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Kong Gateway Engineers / SRE</div>
+          <div class="role-note">Smaller central team than T2 — BU liaisons absorb route-management volume. Focus: platform health, Konnect upgrades, plugin catalog</div>
+        </div>
+        <span class="role-fte">6–8 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">DevOps / GitOps</div>
+          <div class="role-note">IaC repo automation, plugin test infrastructure, release management</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Observability</div>
+          <div class="role-note">FinOps dashboards, anomaly detection, capacity forecasting, SLO product</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">AI-Security (+ Dedicated Red-Team)</div>
+          <div class="role-note">Policy authorship, OWASP LLM Top 10 / MITRE ATLAS cadence. 1–2 FTE explicit red-team on fixed quarterly cadence.</div>
+        </div>
+        <span class="role-fte">3–5 + 1–2 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">LLM Platform / Model</div>
+          <div class="role-note">Provider procurement, fallback orchestration, eval infrastructure, plugin authorship for catalog gaps</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Compliance</div>
+          <div class="role-note">Central GDPR, EU AI Act, regional data-residency, sector-specific mapping. Per-BU overlays owned by BU compliance.</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+      <div class="role-card dedicated">
+        <div class="role-card-main">
+          <div class="role-name">Product / Program Manager</div>
+          <div class="role-note">Internal-product roadmap, SLA tiers, chargeback governance, BU champion certification program</div>
+        </div>
+        <span class="role-fte">2–3 FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Federation Layer — Dedicated (Embedded per BU)</div>
+      <div class="role-card dedicated" style="border-color: var(--color-tier3); background: var(--color-tier3-bg);">
+        <div class="role-card-main">
+          <div class="role-name">BU Gateway Champion / Liaison</div>
+          <div class="role-note">1 per major BU, 2–3 per large BU. Owns route onboarding, BU-specific plugin config, first-line support. Has merge rights to BU namespace in each env's control plane. Trained &amp; certified by central team.</div>
+        </div>
+        <span class="role-fte" style="background: var(--color-tier3);">10–20+ FTE</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Consumed / Earmarked</div>
+      <div class="role-card consumed">
+        <div class="role-card-main">
+          <div class="role-name">Platform / K8s SRE</div>
+          <div class="role-note">Multi-region data-plane fleet. Dedicated named contacts per region.</div>
+        </div>
+        <span class="role-fte consumed">5–8 FTE earmarked</span>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-label">Operations</div>
+      <div class="role-card operations">
+        <div class="role-card-main">
+          <div class="role-name">Tier-1 NOC</div>
+          <div class="role-note">Multi-region NOC with gateway-specific runbooks. BU liaisons resolve routine issues before escalation.</div>
+        </div>
+        <span class="role-fte operations">Shared svc</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: TRANSITION TRIGGERS
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">Phase-Transition Triggers — "Move When Any Two Fire"</div>
+
+<div class="transitions-row">
+  <div class="transition-card">
+    <div class="transition-card-title">
+      <span class="transition-badge t-badge-t1">Tier 1</span>
+      →
+      <span class="transition-badge t-badge-t2">Tier 2</span>
+      <span style="color:var(--color-text-muted); font-size:10px; font-weight:400; margin-left:4px;">Target: 12 months after T1 go-live</span>
+    </div>
+    <div class="trigger-rule">Move when any TWO of the following are true:</div>
+    <ul class="trigger-list">
+      <li>Route count crosses 25 production AI routes</li>
+      <li>Consuming BU count reaches 3 or more</li>
+      <li>P1 incident caused by single-point-of-failure (sole gateway engineer unavailable)</li>
+      <li>On-call burnout documented in a retrospective</li>
+      <li>A compliance requirement mandates 24/7 SLA</li>
+      <li>Token-cost attribution becomes a real budget conversation (not a rounding error)</li>
+    </ul>
+  </div>
+
+  <div class="transition-card">
+    <div class="transition-card-title">
+      <span class="transition-badge t-badge-t2">Tier 2</span>
+      →
+      <span class="transition-badge" style="background:var(--color-tier3);">Tier 3</span>
+      <span style="color:var(--color-text-muted); font-size:10px; font-weight:400; margin-left:4px;">Target: 18+ months after T1 go-live</span>
+    </div>
+    <div class="trigger-rule">Move when any TWO of the following are true:</div>
+    <ul class="trigger-list">
+      <li>BU count exceeds 15–20 distinct consuming business units (central onboarding bottleneck)</li>
+      <li>On-call rotation requires &gt;6 FTE to maintain health — signal that embedded BU capacity offloads route-management work better than more central hires</li>
+      <li>Chargeback model has active BU negotiation on SLA customization — BUs want ownership, not service</li>
+      <li>DXC M&amp;A event adds a new organizational entity with a distinct compliance regime</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION: ON-CALL MATH
+═════════════════════════════════════════════════════════ -->
+<div class="section-title">On-Call Math — Geographic Distribution</div>
+
+<div class="oncall-section">
+  <div class="oncall-grid">
+    <div>
+      <div class="oncall-headline">Minimum to claim a 24/7 SLA honestly</div>
+      <div class="oncall-key-stat">6</div>
+      <div class="oncall-key-label">Gateway engineers across 2–3 regions</div>
+      <ul class="oncall-tier-list">
+        <li>
+          <div class="oncall-tier-dot" style="background:var(--color-tier1)"></div>
+          <span><strong>Tier 1:</strong> 1 eng on-call every week. Declared risk — not a baseline.</span>
+        </li>
+        <li>
+          <div class="oncall-tier-dot" style="background:var(--color-tier2)"></div>
+          <span><strong>Tier 2:</strong> 1-in-6 rotation = ~8–9 on-call weeks/year per engineer. Comfortable.</span>
+        </li>
+        <li>
+          <div class="oncall-tier-dot" style="background:var(--color-tier3)"></div>
+          <span><strong>Tier 3:</strong> 1-in-8+ rotation. BU liaisons resolve routine issues before escalation.</span>
+        </li>
+      </ul>
+      <div style="margin-top:var(--sp-md); font-size:9px; color:var(--color-text-muted); line-height:1.5;">
+        Below 4 engineers globally: rotation degrades to 1-in-3 or worse — document as a staffing risk on any plan targeting fewer than 6 gateway engineers at Tier 2.
+      </div>
+    </div>
+
+    <div>
+      <table class="geo-table">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>FTE (Tier 2 min)</th>
+            <th>Primary Coverage Window</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="geo-region">Americas<br><span style="font-weight:400;color:var(--color-text-muted)">US-East or US-Central</span></td>
+            <td>2–3</td>
+            <td>08:00–20:00 ET primary<br>On-call after-hours</td>
+          </tr>
+          <tr>
+            <td class="geo-region">EMEA<br><span style="font-weight:400;color:var(--color-text-muted)">UK or Continental EU</span></td>
+            <td>2</td>
+            <td>08:00–18:00 GMT/CET primary<br>On-call after-hours</td>
+          </tr>
+          <tr>
+            <td class="geo-region">APAC<br><span style="font-weight:400;color:var(--color-text-muted)">India or APAC</span></td>
+            <td>1–2</td>
+            <td>08:00–18:00 IST/AEST primary<br>On-call after-hours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer class="doc-footer">
+  <div class="footer-left">
+    Kong AI Gateway — Phased Team Org-Chart Proposal · DXC Technology · Updated 2026-05-13 · Draft · Internal Use Only<br>
+    Source of record: <code>2026-05-12-kong-ai-gateway-team-org-chart.md</code> · FTE figures are authoritative as of that document; prose detail in source doc.
+  </div>
+  <div class="footer-right">
+    Produced by Charta (myPKA Infographic Designer)<br>
+    GL-003 fallback mode active — revisit when Iris populates design system
+  </div>
+</footer>
+
+</body>
+</html>

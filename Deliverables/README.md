@@ -18,3 +18,7 @@ When a specialist produces something substantial - a research brief, a draft doc
 - Reference material the team needs forever (SOPs, Workstreams, Guidelines) -> `Team Knowledge/`
 
 Naming convention: see `Team Knowledge/Guidelines/GL-001-file-naming-conventions.md`.
+
+## Active subfolders
+
+- `kong-ai-gateway/` — Kong AI Gateway project artifacts (DXC, Jesse's primary workstream through ~mid-August 2026). Owned by Axle.

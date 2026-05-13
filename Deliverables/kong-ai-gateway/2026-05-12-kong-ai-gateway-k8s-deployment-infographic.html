@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kong AI Gateway — K8s Deployment Infographic | Updated 2026-05-13</title>
+<!--
+  GL-003 fallback mode: GL-003-design-system.md is unpopulated at time of render (2026-05-13).
+  Palette, type, and spacing are set here in professional neutral/technical defaults.
+  Revisit and re-render once GL-003 §2 (Color), §3 (Typography), §4 (Spacing) are populated by Iris.
+-->
+<style>
+  /* ── TOKENS (GL-003 fallback values) ── */
+  :root {
+    /* Color */
+    --color-canvas:          #0f1117;
+    --color-surface-1:       #1a1f2e;
+    --color-surface-2:       #242a3a;
+    --color-surface-3:       #2e3549;
+    --color-surface-4:       #374161;
+    --color-border:          #3d4663;
+    --color-border-light:    #4a5474;
+    --color-text-primary:    #e8ecf4;
+    --color-text-secondary:  #8b95b3;
+    --color-text-muted:      #5a6380;
+    --color-accent:          #4a90d9;
+    --color-accent-muted:    #2a5282;
+    --color-konnect:         #1abc9c;
+    --color-konnect-muted:   #0e7a62;
+    --color-pending:         #d4860a;
+    --color-pending-bg:      #1f1508;
+    --color-pending-border:  #7a4e00;
+    --color-provider:        #6c63d4;
+    --color-provider-muted:  #3d3880;
+    --color-plugin:          #2a6041;
+    --color-plugin-bg:       #1a3329;
+    --color-plugin-border:   #2e7a50;
+    --color-conditional:     #7a3030;
+    --color-conditional-bg:  #2a1010;
+    --color-conditional-border:#9e3f3f;
+    --color-obs:             #4a6ea8;
+    /* environment colors */
+    --color-dev:             #d4860a;
+    --color-dev-bg:          #201505;
+    --color-dev-border:      #8a5800;
+    --color-test:            #2a8fa8;
+    --color-test-bg:         #051820;
+    --color-test-border:     #1a6880;
+    --color-prod:            #c83232;
+    --color-prod-bg:         #200505;
+    --color-prod-border:     #8a1a1a;
+
+    /* Type — GL-003 fallback */
+    --font-heading: 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    --font-body:    'SF Pro Text',    'Segoe UI', system-ui, sans-serif;
+    --font-mono:    'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+
+    --text-display: 22px;
+    --text-h1:      18px;
+    --text-h2:      13px;
+    --text-h3:      11px;
+    --text-body:    11px;
+    --text-caption:  9px;
+
+    /* Spacing (8px base) */
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 40px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--color-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    width: 1400px;
+  }
+
+  .page {
+    width: 1400px;
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  /* ── DOCUMENT HEADER ── */
+  .doc-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-md);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+  .doc-header-left { flex: 1; }
+  .doc-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xs);
+  }
+  .doc-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .doc-subtitle {
+    font-size: var(--text-h3);
+    color: var(--color-text-secondary);
+  }
+  .doc-header-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .doc-meta {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    font-family: var(--font-mono);
+  }
+
+  /* ── CHANGELOG STRIP ── */
+  .changelog-strip {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+  }
+  .changelog-strip .cl-date { color: var(--color-konnect); font-weight: 700; }
+  .changelog-strip .cl-new  { color: var(--color-pending);  font-weight: 700; }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: 4px;
+  }
+  .section-badge {
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .badge-view0 { background: #1a1210; color: var(--color-pending); border: 1px solid var(--color-pending-border); }
+  .badge-view1 { background: var(--color-accent-muted); color: var(--color-accent); }
+  .badge-view2 { background: var(--color-plugin); color: #6ee9a0; }
+  .badge-new   { font-size: 8px; font-weight:700; color: var(--color-pending); background: var(--color-pending-bg); border:1px solid var(--color-pending-border); border-radius:4px; padding:1px 6px; font-family:var(--font-mono); vertical-align:middle; text-transform:uppercase; letter-spacing:0.06em; margin-left:6px; }
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-h1);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+  .section-desc {
+    font-size: var(--text-h3);
+    color: var(--color-text-secondary);
+    max-width: 900px;
+    line-height: 1.55;
+  }
+
+  /* ── PENDING / OPEN CHIPS ── */
+  .pending-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--color-pending);
+    background: var(--color-pending-bg);
+    border: 1px solid var(--color-pending-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .pending-chip::before { content: '⧖'; font-size: 8px; }
+
+  .conditional-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    color: #e07070;
+    background: var(--color-conditional-bg);
+    border: 1px solid var(--color-conditional-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .conditional-chip::before { content: '◈'; font-size: 8px; }
+
+  /* ── DIAGRAM CANVAS BASE ── */
+  .diagram-canvas {
+    position: relative;
+    background: var(--color-surface-1);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: visible;
+  }
+
+  /* ══════════════════════════════════════════
+     VIEW 0 — MULTI-ENVIRONMENT TOPOLOGY
+  ══════════════════════════════════════════ */
+  .view0-canvas {
+    width: 100%;
+    height: 580px;
+    position: relative;
+  }
+
+  /* Konnect outer org box */
+  .konnect-org-box {
+    position: absolute;
+    top: 20px; left: 30px; right: 30px;
+    height: 140px;
+    border: 2px solid var(--color-konnect);
+    border-radius: 12px;
+    background: #0a1a15;
+  }
+  .konnect-org-label {
+    position: absolute;
+    top: -12px; left: 16px;
+    background: var(--color-canvas);
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-konnect);
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Control plane cards inside org box */
+  .cp-card {
+    position: absolute;
+    top: 22px;
+    width: 250px;
+    height: 90px;
+    border-radius: 8px;
+    border: 1.5px solid;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .cp-card.cp-dev  { left: 60px;  border-color: var(--color-dev-border);  background: var(--color-dev-bg);  }
+  .cp-card.cp-test { left: 50%; transform: translateX(-50%); border-color: var(--color-test-border); background: var(--color-test-bg); }
+  .cp-card.cp-prod { right: 60px; border-color: var(--color-prod-border); background: var(--color-prod-bg); }
+  .cp-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .cp-card.cp-dev  .cp-label { color: var(--color-dev);  }
+  .cp-card.cp-test .cp-label { color: var(--color-test); }
+  .cp-card.cp-prod .cp-label { color: var(--color-prod); }
+  .cp-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+  .cp-desc {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    line-height: 1.35;
+  }
+
+  /* IaC repo box */
+  .iac-box {
+    position: absolute;
+    top: 180px; left: 30px; right: 30px;
+    height: 80px;
+    border: 1.5px solid var(--color-border-light);
+    border-radius: 10px;
+    background: var(--color-surface-2);
+  }
+  .iac-label {
+    position: absolute;
+    top: -11px; left: 16px;
+    background: var(--color-canvas);
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  .iac-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .iac-content strong { color: var(--color-text-primary); }
+
+  /* K8s scope boxes */
+  .k8s-box {
+    position: absolute;
+    top: 385px;
+    width: 310px;
+    height: 140px;
+    border-radius: 10px;
+    border: 1.5px dashed;
+  }
+  .k8s-box.k8s-dev  { left: 30px;  border-color: var(--color-dev-border);  background: var(--color-dev-bg); }
+  .k8s-box.k8s-test { left: 50%; transform: translateX(-50%); border-color: var(--color-test-border); background: var(--color-test-bg); }
+  .k8s-box.k8s-prod { right: 30px; border-color: var(--color-prod-border); background: var(--color-prod-bg); }
+  .k8s-label {
+    position: absolute;
+    top: -11px; left: 12px;
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .k8s-box.k8s-dev  .k8s-label { background: var(--color-canvas); color: var(--color-dev);  }
+  .k8s-box.k8s-test .k8s-label { background: var(--color-canvas); color: var(--color-test); }
+  .k8s-box.k8s-prod .k8s-label { background: var(--color-canvas); color: var(--color-prod); }
+  .dp-card {
+    position: absolute;
+    top: 18px; left: 16px; right: 16px;
+    height: 90px;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    border: 1px solid;
+  }
+  .k8s-box.k8s-dev  .dp-card { border-color: var(--color-dev-border);  background: #2a1a00; }
+  .k8s-box.k8s-test .dp-card { border-color: var(--color-test-border); background: #002030; }
+  .k8s-box.k8s-prod .dp-card { border-color: var(--color-prod-border); background: #2a0000; }
+  .dp-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .k8s-box.k8s-dev  .dp-name { color: #f0a840; }
+  .k8s-box.k8s-test .dp-name { color: #50c8e8; }
+  .k8s-box.k8s-prod .dp-name { color: #e86060; }
+  .dp-keys {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  /* SVG overlay for View 0 */
+  .view0-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* takeaways list */
+  .takeaway-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm) var(--space-lg);
+    margin-top: var(--space-sm);
+  }
+  .takeaway-item {
+    font-size: var(--text-caption);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    padding-left: var(--space-md);
+    position: relative;
+  }
+  .takeaway-item::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--color-konnect);
+    font-weight: 700;
+  }
+  .takeaway-item strong { color: var(--color-text-primary); }
+
+  /* ══════════════════════════════════════════
+     VIEW 1 — SINGLE ENV TOPOLOGY
+  ══════════════════════════════════════════ */
+
+  .topology-canvas {
+    width: 100%;
+    height: 680px;
+    padding: var(--space-md);
+  }
+
+  .cluster-box {
+    position: absolute;
+    top: 20px; left: 20px; right: 20px; bottom: 20px;
+    border: 1.5px dashed var(--color-pending-border);
+    border-radius: 12px;
+    background: var(--color-surface-2);
+  }
+  .cluster-label {
+    position: absolute;
+    top: -11px; left: 16px;
+    background: var(--color-surface-1);
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-pending);
+    white-space: nowrap;
+  }
+  .konnect-box {
+    position: absolute;
+    top: 42px; right: 56px;
+    width: 200px;
+    background: var(--color-konnect-muted);
+    border: 1.5px solid var(--color-konnect);
+    border-radius: 12px;
+    padding: var(--space-sm) var(--space-md);
+    text-align: center;
+  }
+  .konnect-box .node-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-konnect);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .konnect-box .node-name {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: #d4f5ed;
+    margin-bottom: 2px;
+  }
+  .konnect-box .node-desc {
+    font-size: 8px;
+    color: #7ed9c5;
+    line-height: 1.4;
+  }
+  .ns-box {
+    position: absolute;
+    border: 1px dashed var(--color-border-light);
+    border-radius: 8px;
+    background: var(--color-surface-3);
+  }
+  .ns-label {
+    position: absolute;
+    top: -10px; left: 12px;
+    background: var(--color-surface-2);
+    padding: 0 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+  .ns-box.ns-pending {
+    border-color: var(--color-pending-border);
+    background: var(--color-pending-bg);
+  }
+  .ns-box.ns-pending .ns-label { color: var(--color-pending); }
+  .pod-box {
+    position: absolute;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface-4);
+  }
+  .pod-label {
+    position: absolute;
+    top: -10px; left: 12px;
+    background: var(--color-surface-3);
+    padding: 0 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  .node-card {
+    position: absolute;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-light);
+    background: var(--color-surface-1);
+    padding: 6px 10px;
+    text-align: center;
+  }
+  .node-card .node-name {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+  .node-card .node-desc {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .node-card.accent-card {
+    border-color: var(--color-accent);
+    background: #111d2e;
+  }
+  .node-card.accent-card .node-name { color: #7ec8f5; }
+  .node-pending {
+    position: absolute;
+    border-radius: 8px;
+    border: 1.5px dashed var(--color-pending-border);
+    background: var(--color-pending-bg);
+    padding: 6px 10px;
+    text-align: center;
+  }
+  .node-pending .node-name {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-pending);
+  }
+  .node-pending .node-desc {
+    font-size: 8px;
+    color: #c49a4a;
+    line-height: 1.4;
+  }
+  .providers-box {
+    position: absolute;
+    border: 1px solid var(--color-provider-muted);
+    border-radius: 8px;
+    background: #1a1630;
+  }
+  .providers-label {
+    position: absolute;
+    top: -10px; left: 12px;
+    background: var(--color-surface-1);
+    padding: 0 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-provider);
+    white-space: nowrap;
+  }
+  .provider-chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    color: #b0a8f0;
+    background: #2a2450;
+    border: 1px solid var(--color-provider-muted);
+    border-radius: 4px;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+  .obs-box {
+    position: absolute;
+    border: 1.5px dashed var(--color-pending-border);
+    border-radius: 8px;
+    background: var(--color-pending-bg);
+    padding: 8px 12px;
+  }
+  .obs-label {
+    position: absolute;
+    top: -10px; left: 12px;
+    background: var(--color-surface-1);
+    padding: 0 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--color-pending);
+    white-space: nowrap;
+  }
+  .obs-desc {
+    font-size: 8px;
+    color: #c49a4a;
+    line-height: 1.5;
+  }
+  .topology-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* ══════════════════════════════════════════
+     VIEW 2 — REQUEST PATH
+  ══════════════════════════════════════════ */
+
+  .reqpath-canvas {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+    flex-wrap: wrap;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+  .legend-title {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: var(--space-sm);
+    flex-shrink: 0;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  .legend-swatch {
+    width: 20px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-swatch.solid { border: 1px solid; }
+  .legend-swatch.dashed { border: 1.5px dashed; }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+  .footer-context {
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+  }
+  .footer-context strong { color: var(--color-text-secondary); }
+  .footer-meta {
+    text-align: right;
+    font-size: var(--text-caption);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    line-height: 1.7;
+  }
+  .footer-notice {
+    font-size: 7.5px;
+    color: var(--color-text-muted);
+    background: #120d00;
+    border: 1px solid #3a2800;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: var(--font-mono);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--color-border);
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ DOCUMENT HEADER ══ -->
+  <header class="doc-header">
+    <div class="doc-header-left">
+      <div class="doc-eyebrow">Architecture Reference — K8s Deployment Shape, Revised 2026-05-13</div>
+      <h1 class="doc-title">Kong AI Gateway — Kubernetes Deployment</h1>
+      <p class="doc-subtitle">
+        Multi-environment topology (View 0) &bull;
+        Single-environment topology (View 1) &bull;
+        Plugin request path (View 2) &mdash;
+        DXC architecture team review
+      </p>
+    </div>
+    <div class="doc-header-right">
+      <div class="doc-meta">
+        Updated: 2026-05-13<br/>
+        Original: 2026-05-11<br/>
+        Gateway owner: Jesse Swensen<br/>
+        Gateway engineering: Axle<br/>
+        Source: 2026-05-11-kong-ai-gateway-k8s-deployment-diagram.md<br/>
+        Companion: 2026-05-11-dxc-arch-team-ask-kong-ai-gateway.md
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ CHANGELOG ══ -->
+  <div class="changelog-strip">
+    <span class="cl-date">2026-05-13</span> — <span class="cl-new">NEW</span> View 0 (multi-environment topology: Dev / Test / Prod) added following Jesse's decision to lock in a standard Dev → Test → Prod tier across all phases. Views 1 and 2 now describe the in-cluster shape <em>for a single environment</em>; that shape repeats per env. Konnect-native pattern: one Konnect org, one control plane per environment. Status: <span class="pending-chip">open — arch team confirms, Row 3</span>&nbsp;&nbsp;
+    <span class="cl-date">2026-05-11</span> — Initial draft (View 1 topology, View 2 request path).
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       VIEW 0 — MULTI-ENVIRONMENT TOPOLOGY (HEADLINE)
+  ═══════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-badge badge-view0">View 0</span>
+      <h2 class="section-title">Multi-Environment Topology — Dev / Test / Prod</h2>
+      <span class="badge-new">New 2026-05-13</span>
+    </div>
+    <p class="section-desc">
+      One Konnect organization carries three control planes — one per environment. Three separate K8s scopes attach as data planes, each controlled through the IaC repo under PR-gated promotion. View 1 (below) shows the in-cluster shape that repeats inside each of these three K8s scopes.
+    </p>
+
+    <!-- ── VIEW 0 DIAGRAM CANVAS ── -->
+    <div class="diagram-canvas view0-canvas" style="height:590px; position:relative; overflow:hidden;">
+
+      <!-- KONNECT ORG BOX -->
+      <div class="konnect-org-box">
+        <div class="konnect-org-label">Konnect SaaS — single DXC organization (US region) &nbsp; Single billing · Single audit trail · Central RBAC</div>
+        <!-- Control plane: Dev -->
+        <div class="cp-card cp-dev">
+          <div class="cp-label">Control Plane</div>
+          <div class="cp-name">Dev</div>
+          <div class="cp-desc">config + RBAC + telemetry<br/>sandbox traffic only</div>
+        </div>
+        <!-- Control plane: Test -->
+        <div class="cp-card cp-test">
+          <div class="cp-label">Control Plane</div>
+          <div class="cp-name">Test</div>
+          <div class="cp-desc">config + RBAC + telemetry<br/>UAT + security harnesses</div>
+        </div>
+        <!-- Control plane: Prod -->
+        <div class="cp-card cp-prod">
+          <div class="cp-label">Control Plane</div>
+          <div class="cp-name">Prod</div>
+          <div class="cp-desc">config + RBAC + telemetry<br/>live DXC traffic · FinOps</div>
+        </div>
+      </div>
+
+      <!-- IaC REPO BOX -->
+      <div class="iac-box">
+        <div class="iac-label">IaC repo (DXC-internal, host TBD Row 2) &nbsp;<span class="pending-chip">Row 2 — pending</span></div>
+        <div class="iac-content">
+          <strong>Versioned decK YAML</strong> per (env, BU) control plane &nbsp;·&nbsp; <strong>Terraform</strong> Konnect tenancy &nbsp;·&nbsp; <strong>Helm values</strong> per env<br/>
+          <span style="font-size:8px; color:var(--color-text-muted);">deck sync (PR-gated) → each control plane &nbsp;·&nbsp; No hand-edits in Konnect UI in any env</span>
+        </div>
+      </div>
+
+      <!-- K8s scope: Dev -->
+      <div class="k8s-box k8s-dev">
+        <div class="k8s-label">K8s scope: Dev &nbsp;<span class="pending-chip" style="font-size:7px;">ns or cluster — Row 1</span></div>
+        <div class="dp-card">
+          <div class="dp-name">kong-dp-dev</div>
+          <div class="dp-keys">Data plane<br/>Sandbox provider keys<br/><em style="font-size:7px;">vault://dev/&lt;provider&gt;-key</em></div>
+        </div>
+      </div>
+
+      <!-- K8s scope: Test -->
+      <div class="k8s-box k8s-test">
+        <div class="k8s-label">K8s scope: Test &nbsp;<span class="pending-chip" style="font-size:7px;">ns or cluster — Row 1</span></div>
+        <div class="dp-card">
+          <div class="dp-name">kong-dp-test</div>
+          <div class="dp-keys">Data plane<br/>Staging provider keys<br/><em style="font-size:7px;">vault://test/&lt;provider&gt;-key</em></div>
+        </div>
+      </div>
+
+      <!-- K8s scope: Prod -->
+      <div class="k8s-box k8s-prod">
+        <div class="k8s-label">K8s scope: Prod &nbsp;<span class="pending-chip" style="font-size:7px;">ns or cluster — Row 1</span></div>
+        <div class="dp-card">
+          <div class="dp-name">kong-dp-prod</div>
+          <div class="dp-keys">Data plane<br/>Production provider keys<br/><em style="font-size:7px;">vault://prod/&lt;provider&gt;-key</em><br/>Multi-region at Tier 2+</div>
+        </div>
+      </div>
+
+      <!-- SVG OVERLAY — View 0 connectors -->
+      <!-- Canvas: 1400px wide; all coordinates are approximate visual positions -->
+      <!-- IaC → Control planes: solid lines from IaC (top edge ~y=268) to CP cards (bottom edge ~y=160) -->
+      <!-- K8s scopes are at ~y=385; IaC box bottom ~y=260 -->
+      <!-- CP-Dev center: x≈180; CP-Test center: x≈690; CP-Prod center: x≈1200 -->
+      <!-- IaC center: x≈690; IaC top: y≈180; IaC bottom: y≈260 -->
+      <!-- K8s Dev center: x≈185; K8s Test center: x≈690; K8s Prod center: x≈1200 -->
+      <svg class="view0-svg" viewBox="0 0 1360 590" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- green arrow for IaC → CP sync -->
+          <marker id="v0-sync" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 11 4, 0 8" fill="#1abc9c"/>
+          </marker>
+          <!-- dashed green for promotion -->
+          <marker id="v0-promo" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 11 4, 0 8" fill="#1abc9c" opacity="0.6"/>
+          </marker>
+          <!-- mTLS arrow: env-colored -->
+          <marker id="v0-dev-mtls" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 11 4, 0 8" fill="#d4860a"/>
+          </marker>
+          <marker id="v0-test-mtls" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 11 4, 0 8" fill="#2a8fa8"/>
+          </marker>
+          <marker id="v0-prod-mtls" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 11 4, 0 8" fill="#c83232"/>
+          </marker>
+        </defs>
+
+        <!-- IaC → CP-Dev (deck sync, solid) -->
+        <path d="M 690 180 L 690 168 L 215 168 L 215 162"
+              stroke="#1abc9c" stroke-width="1.5" fill="none"
+              marker-end="url(#v0-sync)"/>
+        <text x="440" y="163" font-size="7.5" fill="#1abc9c" font-family="monospace" text-anchor="middle">deck sync · terraform apply</text>
+
+        <!-- IaC → CP-Test (deck sync, solid) -->
+        <path d="M 690 180 L 690 162"
+              stroke="#1abc9c" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#v0-promo)"/>
+
+        <!-- IaC → CP-Prod (deck sync, dashed — after Test verified) -->
+        <path d="M 690 180 L 690 168 L 1165 168 L 1165 162"
+              stroke="#1abc9c" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#v0-promo)"/>
+        <text x="940" y="163" font-size="7.5" fill="#1abc9c" font-family="monospace" text-anchor="middle" opacity="0.7">after Test verified · PR-gated promotion</text>
+
+        <!-- Promotion gate labels below IaC box -->
+        <text x="350" y="300" font-size="8" fill="#1abc9c" font-family="monospace" text-anchor="middle" opacity="0.8">→ Dev after IaC merge</text>
+        <text x="690" y="300" font-size="8" fill="#1abc9c" font-family="monospace" text-anchor="middle" opacity="0.6">→ Test after Dev verified</text>
+        <text x="1020" y="300" font-size="8" fill="#1abc9c" font-family="monospace" text-anchor="middle" opacity="0.5">→ Prod after Test verified</text>
+
+        <!-- mTLS: CP-Dev → K8s-Dev -->
+        <path d="M 215 260 L 215 383"
+              stroke="#d4860a" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#v0-dev-mtls)"/>
+        <text x="238" y="330" font-size="7.5" fill="#d4860a" font-family="monospace" transform="rotate(-90 238 330)">mTLS outbound</text>
+
+        <!-- mTLS: CP-Test → K8s-Test -->
+        <path d="M 690 260 L 690 383"
+              stroke="#2a8fa8" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#v0-test-mtls)"/>
+        <text x="713" y="330" font-size="7.5" fill="#2a8fa8" font-family="monospace" transform="rotate(-90 713 330)">mTLS outbound</text>
+
+        <!-- mTLS: CP-Prod → K8s-Prod -->
+        <path d="M 1165 260 L 1165 383"
+              stroke="#c83232" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#v0-prod-mtls)"/>
+        <text x="1188" y="330" font-size="7.5" fill="#c83232" font-family="monospace" transform="rotate(-90 1188 330)">mTLS outbound</text>
+
+        <!-- No cross-env traffic label -->
+        <text x="690" y="556" font-size="8.5" fill="#5a6380" font-family="monospace" text-anchor="middle" font-style="italic">No traffic flows between env scopes — network segmentation enforced at K8s layer (NetworkPolicy or cluster-level VPC isolation)</text>
+      </svg>
+
+    </div><!-- /view0-canvas -->
+
+    <!-- Takeaways -->
+    <div class="takeaway-list">
+      <div class="takeaway-item"><strong>Single Konnect org, three control planes.</strong> Modern Kong pattern replacing "Runtime Groups." Single billing, single audit trail, environments operationally isolated — a Dev config error cannot reach Prod data planes. <span class="pending-chip" style="font-size:7px;">Open — arch team Row 3</span></div>
+      <div class="takeaway-item"><strong>K8s scope per env is the platform team's choice.</strong> Two shapes: (a) separate namespaces on a shared cluster; (b) separate clusters per env. Option (b) is the stronger isolation story for Prod at Tier 2+. <span class="pending-chip" style="font-size:7px;">Open — arch team Row 1</span></div>
+      <div class="takeaway-item"><strong>Secrets are scoped per env.</strong> <code>vault://dev/</code>, <code>vault://test/</code>, <code>vault://prod/</code> — no cross-env path collisions. Dev uses sandbox credentials; Prod uses production keys with strict rotation cadence.</div>
+      <div class="takeaway-item"><strong>Phase transitions are config-only, not infrastructure re-architecture.</strong> Phase 1 (observe) → Phase 2 (enforce) is a decK YAML delta promoted Dev → Test → Prod. No re-deploy. This is the property that makes the four-phase plan operationally cheap.</div>
+      <div class="takeaway-item"><strong>IaC repo is the only path to any env.</strong> No hand-edits in the Konnect UI in any environment. Prod is the hard rule; Dev / Test are operating discipline. Emergency hot-fixes get a 24h back-fill PR.</div>
+      <div class="takeaway-item"><strong>Network segmentation between envs is non-negotiable.</strong> Prod data planes never reach Dev / Test services or vice versa. Consumed from the DXC platform team's network-segmentation story — not invented by the gateway team.</div>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════════
+       VIEW 1 — SINGLE ENVIRONMENT TOPOLOGY
+  ═══════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-badge badge-view1">View 1</span>
+      <h2 class="section-title">Single-Environment Topology — In-Cluster Shape (Repeats per Env)</h2>
+    </div>
+    <p class="section-desc">
+      The in-cluster shape for <em>any one</em> of the three environments shown in View 0. Structure is identical across Dev / Test / Prod; what changes is the control-plane URL, provider-key vault scope, observability sink namespace, and scale (Prod goes multi-region at Tier 2+).
+      Placeholders marked <span class="pending-chip">decision pending</span> are open architecture decisions (Rows 1, 5, 7 of the ask doc).
+    </p>
+
+    <div class="diagram-canvas" style="height:680px; position:relative; overflow:hidden;">
+
+      <!-- KONNECT (outside cluster) -->
+      <div class="konnect-box" style="top:30px; right:40px; width:210px;">
+        <div class="node-label">Konnect SaaS</div>
+        <div class="node-name" style="font-size:11px;">Control Plane (this env)</div>
+        <div class="node-desc">config + RBAC<br/>telemetry ingest<br/>one of three CPs from View 0</div>
+      </div>
+
+      <!-- DXC CLUSTER OUTER BOX -->
+      <div class="cluster-box" style="top:20px; left:20px; right:270px; bottom:20px; border-color: var(--color-pending-border);">
+        <div class="cluster-label">DXC K8s scope &lt;this-env&gt; &nbsp;<span class="pending-chip">Row 1 — ns or cluster, TBD</span></div>
+
+        <!-- ns: platform-ingress -->
+        <div class="ns-box ns-pending" style="position:absolute; top:28px; left:14px; width:220px; height:68px;">
+          <div class="ns-label">ns: platform-ingress &nbsp;<span class="pending-chip">DXC-INGRESS-CLASS</span></div>
+          <div style="position:absolute; top:14px; left:50%; transform:translateX(-50%); white-space:nowrap; text-align:center;">
+            <div class="node-pending" style="position:relative; width:180px; top:auto; left:auto;">
+              <div class="node-name">Ingress / LB front door</div>
+              <div class="node-desc">class = &lt;DXC-INGRESS-CLASS&gt;<br/>platform-team-owned</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ns: kong-system -->
+        <div class="ns-box" style="position:absolute; top:28px; left:250px; right:14px; bottom:120px;">
+          <div class="ns-label">ns: kong-system (gateway tier)</div>
+
+          <div class="node-card accent-card" style="position:absolute; top:14px; left:14px; width:160px;">
+            <div class="node-name">Service: kong-proxy</div>
+            <div class="node-desc">LoadBalancer or ClusterIP<br/>behind platform ingress</div>
+          </div>
+
+          <div class="node-card" style="position:absolute; top:14px; right:14px; width:160px; border-style:dashed; border-color: var(--color-border-light);">
+            <div class="node-name" style="color:var(--color-text-secondary);">KIC controller</div>
+            <div class="node-desc">optional — KIC-mode only<br/>reconciles CRDs → data plane</div>
+          </div>
+
+          <div class="pod-box" style="position:absolute; top:82px; left:14px; right:14px; bottom:14px;">
+            <div class="pod-label">Deployment: kong-dp &nbsp;(HPA-scaled, pinned Kong 3.x)</div>
+
+            <div class="node-card accent-card" style="position:absolute; top:18px; left:14px; width:200px; height:90px;">
+              <div class="node-name" style="font-size:11px; margin-bottom:6px;">kong-gateway</div>
+              <div class="node-desc">data-plane, hybrid mode<br/>receives config from Konnect CP<br/>executes plugin chain</div>
+            </div>
+
+            <div class="node-card" style="position:absolute; top:18px; left:230px; width:170px; height:90px; border-color: var(--color-obs);">
+              <div class="node-name" style="color:#7ec8f5;">otel-collector</div>
+              <div class="node-desc">sidecar<br/>traces + metrics emit<br/>survives gateway restart</div>
+            </div>
+
+            <div class="node-card" style="position:absolute; top:18px; left:416px; width:170px; height:90px;">
+              <div class="node-name">secrets sidecar</div>
+              <div class="node-desc">CSI driver or<br/>workload-identity helper<br/>vault://&lt;env&gt;/key → runtime</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ns: secrets-backend -->
+        <div class="ns-box ns-pending" style="position:absolute; bottom:20px; left:14px; width:220px; height:88px;">
+          <div class="ns-label">&lt;DXC-SECRETS-BACKEND&gt;-system &nbsp;<span class="pending-chip">Row 5</span></div>
+          <div style="position:absolute; top:14px; left:50%; transform:translateX(-50%);">
+            <div class="node-pending" style="position:relative; width:180px; top:auto; left:auto;">
+              <div class="node-name">Secrets backend (env-scoped)</div>
+              <div class="node-desc">HashiCorp Vault / AWS SM<br/>Azure KV — TBD, path per env</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /cluster-box -->
+
+      <!-- AI PROVIDERS -->
+      <div class="providers-box" style="position:absolute; bottom:128px; right:40px; width:210px; padding:12px 10px 10px 10px;">
+        <div class="providers-label">AI providers (public egress, NetworkPolicy + allowlisted FQDNs)</div>
+        <div style="display:flex; flex-direction:column; gap:5px; margin-top:6px;">
+          <span class="provider-chip">OpenAI</span>
+          <span class="provider-chip">Anthropic</span>
+          <span class="provider-chip">Azure OpenAI</span>
+          <span class="provider-chip">AWS Bedrock</span>
+        </div>
+      </div>
+
+      <!-- OBSERVABILITY SINK -->
+      <div class="obs-box" style="position:absolute; bottom:30px; right:40px; width:210px;">
+        <div class="obs-label">&lt;DXC-OBSERVABILITY-SINK&gt; &nbsp;<span class="pending-chip">Row 7</span></div>
+        <div class="obs-desc">
+          Datadog / Splunk / Grafana stack<br/>
+          Azure Monitor — TBD<br/>
+          <em>OTel collector ships via OTLP or syslog</em>
+        </div>
+      </div>
+
+      <!-- SVG CONNECTOR OVERLAY — VIEW 1 -->
+      <svg class="topology-svg" viewBox="0 0 1320 680" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 12 4.5, 0 9" fill="#4a90d9"/>
+          </marker>
+          <marker id="arr-kon" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 12 4.5, 0 9" fill="#1abc9c"/>
+          </marker>
+          <marker id="arr-prov" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 12 4.5, 0 9" fill="#6c63d4"/>
+          </marker>
+          <marker id="arr-pend" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 12 4.5, 0 9" fill="#d4860a"/>
+          </marker>
+          <marker id="arr-obs" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 12 4.5, 0 9" fill="#4a6ea8"/>
+          </marker>
+          <marker id="arr-back" markerWidth="12" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="12 0, 0 4.5, 12 9" fill="#1abc9c"/>
+          </marker>
+        </defs>
+
+        <line x1="242" y1="75" x2="300" y2="64"
+              stroke="#d4860a" stroke-width="1.5" marker-end="url(#arr-pend)"
+              stroke-dasharray="6,4"/>
+        <text x="260" y="58" font-size="8" fill="#d4860a" font-family="monospace" text-anchor="middle">HTTPS</text>
+
+        <line x1="386" y1="78" x2="440" y2="150"
+              stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <path d="M 616 165 C 700 80 950 80 1035 80"
+              stroke="#1abc9c" stroke-width="1.5" fill="none"
+              stroke-dasharray="7,4"
+              marker-end="url(#arr-kon)"
+              marker-start="url(#arr-back)"/>
+        <text x="820" y="66" font-size="8" fill="#1abc9c" font-family="monospace" text-anchor="middle">mTLS outbound only — config in / telemetry out — env-scoped CP</text>
+
+        <path d="M 616 240 C 700 350 950 440 1035 476"
+              stroke="#6c63d4" stroke-width="1.5" fill="none"
+              marker-end="url(#arr-prov)"/>
+        <text x="820" y="390" font-size="8" fill="#6c63d4" font-family="monospace" text-anchor="middle">egress — NetworkPolicy + allowlisted FQDNs</text>
+
+        <line x1="616" y1="195" x2="666" y2="195"
+              stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,3"
+              marker-end="url(#arr)"/>
+
+        <path d="M 723 265 L 723 560 L 235 560"
+              stroke="#d4860a" stroke-width="1.5" fill="none"
+              stroke-dasharray="6,4"
+              marker-end="url(#arr-pend)"/>
+        <text x="600" y="553" font-size="8" fill="#d4860a" font-family="monospace" text-anchor="middle">workload identity → vault://&lt;env&gt;/key resolved at runtime</text>
+
+        <path d="M 808 265 L 808 430 L 1038 598"
+              stroke="#4a6ea8" stroke-width="1.5" fill="none"
+              stroke-dasharray="5,4"
+              marker-end="url(#arr-obs)"/>
+        <text x="940" y="460" font-size="8" fill="#4a6ea8" font-family="monospace" text-anchor="middle">OTLP / syslog</text>
+
+        <path d="M 950 60 C 850 100 700 130 616 168"
+              stroke="#3d4663" stroke-width="1" fill="none"
+              stroke-dasharray="4,4"
+              marker-end="url(#arr)"/>
+        <text x="790" y="98" font-size="7.5" fill="#5a6380" font-family="monospace" text-anchor="middle">reconciles CRDs (KIC-mode only, optional)</text>
+      </svg>
+
+    </div><!-- /topology diagram-canvas -->
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════════════
+       VIEW 2 — REQUEST PATH
+  ═══════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-badge badge-view2">View 2</span>
+      <h2 class="section-title">Plugin Request Path — Recommended v1 Plugin Chain (Row 4)</h2>
+    </div>
+    <p class="section-desc">
+      Environment-agnostic: describes how a request traverses the plugin chain regardless of which env the route is in.
+      <strong>Phase determines what plugins are on the chain</strong> (Phase 1 = File Log + OTel only; Phase 2 adds enforcement plugins);
+      <strong>env determines which CP and which vault-scoped keys are in play.</strong>
+      Order is load-bearing — policy violations do not consume token budgets; PII is redacted before leaving the cluster.
+      Steps marked <span class="conditional-chip">Row 6 conditional</span> drop if compliance defers PII redaction past v1.
+    </p>
+
+    <div class="diagram-canvas" style="padding: var(--space-md); overflow:visible;">
+
+      <!-- TOP LABELS ROW -->
+      <div style="display:flex; align-items:flex-end; gap:0; margin-bottom:6px; padding:0 4px;">
+        <div style="flex:0 0 100px; text-align:center; font-size:8px; color:var(--color-text-muted); font-family:var(--font-mono);">CLIENT</div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:0 0 140px; text-align:center; font-size:8px; color:var(--color-pending); font-family:var(--font-mono);">INGRESS<br/>&lt;DXC-INGRESS-CLASS&gt;</div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:1; text-align:center; font-size:8px; color:#6ee9a0; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.08em;">— Kong data-plane plugin chain (env-scoped route) —</div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:0 0 130px; text-align:center; font-size:8px; color:var(--color-provider); font-family:var(--font-mono);">UPSTREAM<br/>AI PROVIDER</div>
+      </div>
+
+      <!-- MAIN NODES ROW -->
+      <div style="display:flex; align-items:stretch; gap:0; position:relative; min-height:160px;">
+
+        <!-- Client -->
+        <div style="flex:0 0 100px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="width:88px; border-radius:8px; border:1px solid var(--color-border-light); background:var(--color-surface-3); padding:10px 6px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--color-text-primary); margin-bottom:3px;">Client</div>
+            <div style="font-size:8px; color:var(--color-text-secondary);">DXC app<br/>/ consumer</div>
+          </div>
+        </div>
+
+        <!-- arrow: client → ingress -->
+        <div style="flex:0 0 40px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="40" height="40" viewBox="0 0 40 40" style="position:absolute;">
+            <defs><marker id="a1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#d4860a"/></marker></defs>
+            <line x1="4" y1="20" x2="33" y2="20" stroke="#d4860a" stroke-width="1.5" marker-end="url(#a1)" stroke-dasharray="5,3"/>
+          </svg>
+          <span style="font-size:7px; color:var(--color-text-muted); position:absolute; top:6px; left:0; right:0; text-align:center; font-family:monospace;">HTTPS</span>
+        </div>
+
+        <!-- Ingress -->
+        <div style="flex:0 0 140px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="width:128px; border-radius:8px; border:1.5px dashed var(--color-pending-border); background:var(--color-pending-bg); padding:10px 6px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:9px; font-weight:700; color:var(--color-pending); margin-bottom:3px;">Ingress / LB</div>
+            <div style="font-size:8px; color:#c49a4a;">&lt;DXC-INGRESS-CLASS&gt;</div>
+            <div style="margin-top:4px;"><span class="pending-chip">Row 1 — pending</span></div>
+          </div>
+        </div>
+
+        <!-- arrow: ingress → plugin chain -->
+        <div style="flex:0 0 40px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="40" height="40" viewBox="0 0 40 40" style="position:absolute;">
+            <defs><marker id="a2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#4a90d9"/></marker></defs>
+            <line x1="4" y1="20" x2="33" y2="20" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#a2)"/>
+          </svg>
+          <span style="font-size:7px; color:var(--color-text-muted); position:absolute; top:6px; left:0; right:0; text-align:center; font-family:monospace;">fwd route</span>
+        </div>
+
+        <!-- plug 1: ai-prompt-guard -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-plugin-border); background:var(--color-plugin-bg); padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:var(--color-text-muted); margin-bottom:3px;">① REQUEST</div>
+            <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:#6ee9a0; margin-bottom:5px;">ai-prompt-guard</div>
+            <div style="font-size:8px; color:var(--color-text-secondary); line-height:1.5;">Allow/deny patterns<br/>jailbreak filters<br/><em>policy violations blocked before rate-limit token burn</em></div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 28px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="28" height="40" viewBox="0 0 28 40" style="position:absolute;">
+            <defs><marker id="a3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#4a90d9"/></marker></defs>
+            <line x1="3" y1="20" x2="23" y2="20" stroke="#4a90d9" stroke-width="1.2" marker-end="url(#a3)"/>
+          </svg>
+        </div>
+
+        <!-- plug 2: ai-rate-limiting-advanced -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-plugin-border); background:var(--color-plugin-bg); padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:var(--color-text-muted); margin-bottom:3px;">② REQUEST</div>
+            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:#6ee9a0; margin-bottom:5px; line-height:1.3;">ai-rate-limiting<br/>-advanced</div>
+            <div style="font-size:8px; color:var(--color-text-secondary); line-height:1.5;">Token + request budgets<br/>per consumer<br/><em>burst absorption for AI workloads</em></div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 28px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="28" height="40" viewBox="0 0 28 40" style="position:absolute;">
+            <defs><marker id="a4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#4a90d9"/></marker></defs>
+            <line x1="3" y1="20" x2="23" y2="20" stroke="#4a90d9" stroke-width="1.2" marker-end="url(#a4)"/>
+          </svg>
+        </div>
+
+        <!-- plug 3: ai-sanitizer (request) — CONDITIONAL -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-conditional-border); background:var(--color-conditional-bg); padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:#9e3f3f; margin-bottom:3px;">③ REQUEST</div>
+            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:#e07070; margin-bottom:4px; line-height:1.3;">ai-sanitizer<br/>(request)</div>
+            <div style="font-size:8px; color:#c07070; line-height:1.5; margin-bottom:4px;">PII scan via self-hosted sidecar<br/>redacted before upstream<br/><em>prompt never leaves regulated env unredacted</em></div>
+            <span class="conditional-chip">Row 6 conditional</span>
+          </div>
+        </div>
+
+        <div style="flex:0 0 28px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="28" height="40" viewBox="0 0 28 40" style="position:absolute;">
+            <defs><marker id="a5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#4a90d9"/></marker></defs>
+            <line x1="3" y1="20" x2="23" y2="20" stroke="#4a90d9" stroke-width="1.2" marker-end="url(#a5)"/>
+          </svg>
+        </div>
+
+        <!-- plug 4: ai-proxy-advanced -->
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-plugin-border); background:var(--color-plugin-bg); padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:var(--color-text-muted); margin-bottom:3px;">④ REQUEST</div>
+            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:#6ee9a0; margin-bottom:5px; line-height:1.3;">ai-proxy<br/>-advanced</div>
+            <div style="font-size:8px; color:var(--color-text-secondary); line-height:1.5;">Resolves vault://&lt;env&gt;/key at runtime<br/>picks provider, shapes request<br/><em>API key never materialized in YAML</em></div>
+          </div>
+        </div>
+
+        <!-- arrow: to provider -->
+        <div style="flex:0 0 40px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="40" height="40" viewBox="0 0 40 40" style="position:absolute;">
+            <defs><marker id="a6" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#6c63d4"/></marker></defs>
+            <line x1="4" y1="20" x2="33" y2="20" stroke="#6c63d4" stroke-width="1.5" marker-end="url(#a6)"/>
+          </svg>
+          <span style="font-size:7px; color:var(--color-provider); position:absolute; top:5px; left:0; right:0; text-align:center; font-family:monospace;">provider<br/>call</span>
+        </div>
+
+        <!-- Upstream provider -->
+        <div style="flex:0 0 130px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="width:118px; border-radius:8px; border:1px solid var(--color-provider-muted); background:#1a1630; padding:10px 6px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:9px; font-weight:700; color:#b0a8f0; margin-bottom:5px;">Upstream AI Provider</div>
+            <div style="font-size:8px; color:#7a70c0; line-height:1.5;">OpenAI / Anthropic<br/>Azure OpenAI<br/>AWS Bedrock</div>
+          </div>
+        </div>
+      </div><!-- /main nodes row -->
+
+      <!-- RESPONSE PATH LABEL -->
+      <div style="display:flex; align-items:center; margin-top:6px; margin-bottom:4px; padding:0 4px;">
+        <div style="flex:0 0 100px;"></div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:0 0 140px;"></div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:1; text-align:center;">
+          <span style="font-size:8px; color:var(--color-text-muted); font-family:monospace; font-style:italic;">← response direction</span>
+        </div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:0 0 130px;"></div>
+      </div>
+
+      <!-- RESPONSE PATH ROW -->
+      <div style="display:flex; align-items:stretch; gap:0; position:relative; min-height:140px;">
+        <div style="flex:0 0 100px;"></div>
+        <div style="flex:0 0 40px;"></div>
+        <div style="flex:0 0 140px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="font-size:8px; color:var(--color-text-muted); font-family:monospace; text-align:center; padding:0 8px; line-height:1.5;">← response<br/>returned to client</div>
+        </div>
+        <div style="flex:0 0 40px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="40" height="40" viewBox="0 0 40 40" style="position:absolute;">
+            <defs><marker id="ar1" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="10 0, 0 3.5, 10 7" fill="#4a90d9"/></marker></defs>
+            <line x1="36" y1="20" x2="7" y2="20" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ar1)"/>
+          </svg>
+        </div>
+        <div style="flex:2; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-obs); background:#0e1826; padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:#4a6ea8; margin-bottom:3px;">⑥ RESPONSE — emit on every request, non-deferrable</div>
+            <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:#7ec8f5; margin-bottom:5px;">File Log + OTel emission</div>
+            <div style="font-size:8px; color:var(--color-text-secondary); line-height:1.5;">
+              File Log audit event: consumer, route, tokens, latency<br/>
+              OTel span: trace + token-usage metric<br/>
+              Ships to <span style="color:var(--color-pending); font-family:monospace;">&lt;DXC-OBSERVABILITY-SINK&gt;</span> &nbsp;<span class="pending-chip">Row 7</span>
+            </div>
+          </div>
+        </div>
+        <div style="flex:0 0 28px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="28" height="40" viewBox="0 0 28 40" style="position:absolute;">
+            <defs><marker id="ar2" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="10 0, 0 3.5, 10 7" fill="#4a90d9"/></marker></defs>
+            <line x1="25" y1="20" x2="4" y2="20" stroke="#4a90d9" stroke-width="1.2" marker-end="url(#ar2)"/>
+          </svg>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 4px;">
+          <div style="width:100%; border-radius:8px; border:1px solid var(--color-conditional-border); background:var(--color-conditional-bg); padding:10px 8px; text-align:center;">
+            <div style="font-family:var(--font-mono); font-size:8px; color:#9e3f3f; margin-bottom:3px;">⑤ RESPONSE</div>
+            <div style="font-family:var(--font-mono); font-size:10px; font-weight:700; color:#e07070; margin-bottom:4px; line-height:1.3;">ai-sanitizer<br/>(response)</div>
+            <div style="font-size:8px; color:#c07070; line-height:1.5; margin-bottom:4px;">PII scan on completion<br/><em>provider can't regurgitate PII to client</em></div>
+            <span class="conditional-chip">Row 6 conditional</span>
+          </div>
+        </div>
+        <div style="flex:0 0 40px; display:flex; align-items:center; justify-content:center; position:relative;">
+          <svg width="40" height="40" viewBox="0 0 40 40" style="position:absolute;">
+            <defs><marker id="ar3" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="10 0, 0 3.5, 10 7" fill="#6c63d4"/></marker></defs>
+            <line x1="36" y1="20" x2="7" y2="20" stroke="#6c63d4" stroke-width="1.5" marker-end="url(#ar3)"/>
+          </svg>
+          <span style="font-size:7px; color:var(--color-provider); position:absolute; top:5px; left:0; right:0; text-align:center; font-family:monospace;">completion</span>
+        </div>
+        <div style="flex:0 0 130px; display:flex; align-items:center; justify-content:center;">
+          <div style="font-size:8px; color:var(--color-text-muted); font-family:monospace; text-align:center;">← completion<br/>returned</div>
+        </div>
+      </div><!-- /response row -->
+
+      <!-- Vault note -->
+      <div style="margin-top:10px; padding:6px 12px; background:#111d2e; border:1px solid var(--color-accent-muted); border-radius:6px; font-size:8px; color:var(--color-text-secondary); font-family:monospace; line-height:1.6;">
+        <strong style="color:var(--color-accent);">Vault resolution (④ ai-proxy-advanced):</strong>
+        &nbsp;At runtime, ai-proxy-advanced resolves <span style="color:var(--color-pending);">vault://&lt;env&gt;/&lt;provider&gt;-key</span>
+        &nbsp;<span class="pending-chip">Row 5</span>
+        &nbsp;via the pod's secrets sidecar. API key is never materialized into decK YAML, Terraform state, or any committed file.
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong style="color:var(--color-accent);">Fallback chain if Row 6 defers sanitizer:</strong>
+        &nbsp;① ai-prompt-guard → ② ai-rate-limiting-advanced → ④ ai-proxy-advanced → ⑥ File Log + OTel &nbsp;(steps ③ and ⑤ removed).
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong style="color:var(--color-accent);">Phase 1 chain (observe-only):</strong>
+        &nbsp;⑥ File Log + OTel only — no enforcement plugins at all. All other plugins land at Phase 2+ entry.
+      </div>
+
+    </div><!-- /reqpath diagram-canvas -->
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══ LEGEND ══ -->
+  <div class="legend">
+    <span class="legend-title">Legend</span>
+    <div class="legend-item">
+      <div class="legend-swatch dashed" style="border-color:var(--color-pending-border); background:var(--color-pending-bg);"></div>
+      <span>Placeholder — decision pending (arch-team input required)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-conditional-border); background:var(--color-conditional-bg);"></div>
+      <span>Row 6 conditional — drops if compliance defers PII redaction</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-konnect); background:var(--color-konnect-muted);"></div>
+      <span>Konnect SaaS control plane (one per env in View 0)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-dev-border); background:var(--color-dev-bg);"></div>
+      <span>Dev environment scope</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-test-border); background:var(--color-test-bg);"></div>
+      <span>Test environment scope</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-prod-border); background:var(--color-prod-bg);"></div>
+      <span>Prod environment scope</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch solid" style="border-color:var(--color-plugin-border); background:var(--color-plugin-bg);"></div>
+      <span>Plugin (Recommended v1 set, pinned 3.x minor)</span>
+    </div>
+    <div class="legend-item">
+      <svg width="30" height="10" viewBox="0 0 30 10">
+        <defs><marker id="l-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 8 3, 0 6" fill="#1abc9c"/></marker></defs>
+        <line x1="2" y1="5" x2="24" y2="5" stroke="#1abc9c" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#l-arr)"/>
+      </svg>
+      <span>mTLS outbound-only (Konnect CP → data plane / deck sync path)</span>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <div>
+      <div class="footer-context">
+        <strong>Kong AI Gateway — K8s deployment shape.</strong>
+        View 0: multi-env topology (Dev/Test/Prod). View 1: single-env in-cluster shape (repeats per env). View 2: plugin request path (env-agnostic).
+        Every placeholder is an open decision; see the companion ask doc for options and tradeoffs.
+      </div>
+      <div style="margin-top:4px;">
+        <div class="footer-notice">
+          GL-003 fallback mode — design system (GL-003-design-system.md) was unpopulated at render time (2026-05-13).
+          Palette, type, and spacing are professional neutral technical defaults. Re-render once Iris populates GL-003 §2 §3 §4.
+        </div>
+      </div>
+    </div>
+    <div class="footer-meta">
+      Updated: 2026-05-13 · Original: 2026-05-11<br/>
+      Owner: Jesse Swensen (gateway owner) · Axle (gateway engineering)<br/>
+      Source diagram: 2026-05-11-kong-ai-gateway-k8s-deployment-diagram.md<br/>
+      Companion ask doc: 2026-05-11-dxc-arch-team-ask-kong-ai-gateway.md
+    </div>
+  </footer>
+
+</div><!-- /page -->
+</body>
+</html>

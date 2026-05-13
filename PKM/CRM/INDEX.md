@@ -9,7 +9,14 @@ People and Organizations the user interacts with. Cross-linked into Journal entr
 
 ## Active files
 
-_(none yet — Penn adds entries here as people and organizations show up in the Journal)_
+### People
+- [[People/rossy]] - Kong AI Gateway Architect / Lead Engineer at DXC
+- [[People/dan]] - DXC colleague, AI gateway governance
+- [[People/pablo]] - DXC architect, Kong AI Gateway design
+- [[People/dave]] - DXC colleague, Kong AI Gateway team
+
+### Organizations
+- [[Organizations/dxc]] - DXC (130,000-employee multinational)
 
 ## How the CRM stays in sync
 
