@@ -14,6 +14,7 @@ Filename pattern: `SOP-NNN-<title>.md`. See [[GL-001-file-naming-conventions]] f
 | SOP-008 | [[SOP-008-generate-a-styled-image]] | Pixel | Multi-reference image generation with three capability paths: local image-gen, Mack-wired external API/MCP, fallback design-brief-for-human. Five-part prompt construction, visual quality scoring, variant strategy. Reads from [[GL-003-design-system]]. |
 | SOP-009 | [[SOP-009-author-a-design-system]] | Iris | Guided session walking the user through populating [[GL-003-design-system]]: identity, color palette, typography, spacing scale, imagery style, voice samples. Decision-led, not prescriptive — the user picks; Iris asks. |
 | SOP-010 | [[SOP-010-audit-content-for-design-system-compliance]] | Iris | Verify visual deliverables against [[GL-003-design-system]]. Per-deliverable audit checklist, severity classification, report format. Audits surface violations; the user decides what to fix. |
+| SOP-011 | [[SOP-011-grill-with-docs]] | Larry | Stress-test a plan, decision, or design through one-question-at-a-time Socratic interviewing. Capture resolutions inline into a target document; promote decisions to standalone ADRs only when they meet the three-criteria bar (hard to reverse, surprising without context, result of a real trade-off). Reusable by any agent. |
 
 *Reserved (genuinely open for future agents):* SOP-003, SOP-004, SOP-005, SOP-006. Do not back-fill these slots without coordinating across the team.
 
