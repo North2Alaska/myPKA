@@ -1,6 +1,6 @@
 # Team - Agent Index
 
-Routing table for the team. Larry reads this on every request to decide who handles what. (The first nine specialists shipped on day one; new hires are added via [[SOP-001-how-to-add-a-new-specialist]].)
+Routing table for the team. Larry reads this on every request to decide who handles what. New hires are added via [[SOP-001-how-to-add-a-new-specialist]].
 
 | Specialist | Role | Folder | Routes to them when |
 |---|---|---|---|
@@ -8,7 +8,7 @@ Routing table for the team. Larry reads this on every request to decide who hand
 | Nolan | HR | [[Team/Nolan - HR/AGENTS]] | User wants to hire a new specialist, retire one, or audit team hygiene. Default owner of [[SOP-001-how-to-add-a-new-specialist]]. |
 | Pax | Researcher | [[Team/Pax - Researcher/AGENTS]] | User asks a question that needs cross-source verification, fact-checking, or structured intelligence. |
 | Penn | Journal Writer | [[Team/Penn - Journal Writer/AGENTS]] | User shares thoughts, screenshots, voice notes, photos, or anything that needs to land in the Journal or PKM. See [[WS-001-daily-journaling]]. |
-| Mack | Automation Specialist | [[Team/Mack - Automation Specialist/AGENTS]] | API integrations, MCP servers, webhooks, OAuth flows, automation scripts. Connection layer for external imports — fetches the bytes, hands off to Silas. Wires up external image generators when local image-gen isn't available (Pixel hands off the connection half). |
+| Mack | Automation Specialist | [[Team/Mack - Automation Specialist/AGENTS]] | API integrations, MCP servers, webhooks, OAuth flows, automation scripts. Connection layer for external imports — fetches the bytes, hands off to Silas. Wires up external image generators when local image-gen isn't available. |
 | Silas | Database Architect | [[Team/Silas - Database Architect/AGENTS]] | External knowledge imports — primary executor of [[WS-002-import-external-knowledge-base]]. Default owner of [[SOP-002-convert-mypka-to-sqlite]]. Frontmatter integrity audits, schema drift, GL-002 compliance. |
 | Charta | Infographic Designer | [[Team/Charta - Infographic Designer/AGENTS]] | Structured visual content — comparison tables, feature grids, decision guides, process flows, flowcharts, decision trees, timelines, swimlanes, hub-and-spoke diagrams, quadrant matrices, carousels, PDFs from clean HTML. Default owner of [[SOP-007-build-an-infographic]]. Reads from [[GL-003-design-system]]. Hands off to Pixel for stylization when needed. |
 | Pixel | Visual Specialist | [[Team/Pixel - Visual Specialist/AGENTS]] | Image stylization, multi-reference image generation, thumbnails, social images, hero illustrations, quote cards. Default owner of [[SOP-008-generate-a-styled-image]]. Reads from [[GL-003-design-system]]. When local image-gen isn't available, routes the connection half to Mack. |

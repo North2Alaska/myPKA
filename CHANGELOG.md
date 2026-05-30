@@ -2,6 +2,99 @@
 
 All notable changes to the myPKA scaffold are tracked here. Versions follow semver: MAJOR for breaking structural changes, MINOR for additions, PATCH for fixes.
 
+## [2.1.2] - 2026-05-20
+
+**Repository moved to myICOR org for corporate ownership; remains public and free.** The canonical home of the myPKA scaffold is now `https://github.com/myICOR/myPKA` (transferred from `TomSolid/myPKA`). The repo stays public under CC BY-NC-SA 4.0 and continues to be the free distribution channel; the myicor.com SaaS layer remains the paid product. Stars, forks, issues, and the old URL are preserved by GitHub's transfer redirects, so existing clones and bookmarks keep working. No code or content changes vs 2.1.0 — this release exists solely to publish the org-owned canonical artifact at `releases/latest/download/mypka-scaffold-latest.zip`. (AUTO-175)
+
+### Version files
+
+- `VERSION` → `2.1.2`
+- `.scaffold-version` → `2.1.2`
+
+## [2.1.0] - 2026-05-19
+
+**Slash commands become adapter-generated.** The `/close-session` command is no longer pre-baked into the scaffold as a Claude-only file. The adapter now generates it at setup time from the canonical close-session protocol in `AGENTS.md`, so the scaffold ships host-neutral and every host gets the right thing: Claude Code gets the slash command, hosts without slash commands skip it and rely on the natural-language triggers. Additive, non-breaking — Claude Code users get the command regenerated idempotently on next activation. (COU-272)
+
+### Added
+
+- **ADAPTER-PROMPT §7-bis "Bind host-native slash commands."** New idempotent setup step: if the host supports native slash commands (Claude Code → `.claude/commands/close-session.md`), the adapter generates `close-session.md` from the canonical close-session protocol in `AGENTS.md`. Hosts without slash commands (Codex CLI, Gemini CLI, Cursor, chat-only) skip generation and the tool-specific pointer file notes the natural-language triggers instead. Skip-if-exists — never overwrites a user-customized command file.
+- **`SLASH COMMANDS BOUND:` report-back field** in ADAPTER-PROMPT — the adapter now reports whether the close-session command was written, skipped (already exists), or not applicable for the host.
+
+### Removed
+
+- **`.claude/commands/close-session.md` is no longer tracked in the repo.** It was a Claude-Code-only pre-baked file; it is now adapter-generated per §7-bis. Removing it from the scaffold makes the repo host-neutral. (Note: `.claude/agents/*.md` shims are in the same pre-baked-Claude-only category and a candidate for the same treatment — tracked separately, not part of this release.)
+
+### Changed
+
+- `AGENTS.md` (root) — close-session trigger row gains the member-facing phrases "close this session", "wrap", "log this session". The slash-command-optionality line is tightened: `/close-session` is explicitly a Claude-Code-only convenience generated at setup (ADAPTER-PROMPT §7-bis), not required and not shipped; the natural-language triggers are the canonical universal path.
+- `validation-script.sh` — `.scaffold-version` check widened from the `2.0.x` line to the full `2.x` line; v2.1.0 introduces no structural changes the script must enforce.
+
+### Version files
+
+- `VERSION` → `2.1.0`
+- `.scaffold-version` → `2.1.0`
+
+## [2.0.0] - 2026-05-18
+
+**Breaking structural change.** The base scaffold roster moves from **nine specialists to six**. The three creative specialists — Iris (Design System Architect), Charta (Infographic Designer), Pixel (Visual Specialist) — and everything they own come out of the base scaffold and into the optional **Designer Expansion Pack** from the AI Library. The base now ships Larry, Nolan, Pax, Penn, Mack, and Silas. A user updating an existing myPKA from 1.10.x to 2.0.0 loses the three creative agents from their base roster — install the Designer Expansion Pack to keep them. (COU-261)
+
+### Removed
+
+- **Three creative specialists.** `Team/Iris - Design System Architect/`, `Team/Charta - Infographic Designer/`, `Team/Pixel - Visual Specialist/` — agent folders, contracts, and per-agent `journal/` templates.
+- **Three Claude sub-agent boot files.** `.claude/agents/iris.md`, `.claude/agents/charta.md`, `.claude/agents/pixel.md`.
+- **Four design SOPs.** `SOP-007-build-an-infographic`, `SOP-008-generate-a-styled-image`, `SOP-009-author-a-design-system`, `SOP-010-audit-content-for-design-system-compliance`. The `SOP-007`–`SOP-010` slots are now vacated and reserved; per the no-renumber rule the gap is intentional. A fresh Designer Pack install claims the lowest free slots starting at `SOP-003`.
+- **`GL-003-design-system`.** The design-system Guideline (the visual identity SSOT) moves into the Designer Expansion Pack, which now ships it via `adds_guidelines`. It is no longer part of the base Guidelines set.
+- **Three team-portrait images.** `github/team/iris.png`, `github/team/charta.png`, `github/team/pixel.png`.
+
+### Changed
+
+- `Team/agent-index.md` — routing table down to six rows; "nine specialists" → "six specialists"; Mack's row drops the Pixel-handoff parenthetical.
+- `Team/Larry - Orchestrator/AGENTS.md` — routing cheatsheet drops the four design rows; "What Larry does not do" drops the two design/GL-003 lines.
+- `AGENTS.md` (root) — "The team (9 specialists)" → "The team (6 specialists)"; team table down to six rows; "the current 9 specialists" → "6".
+- `README.md` — "nine"/"9" roster references → "six"/"6" (×5 including version badge); three creative team-card blocks removed; added a Designer Pack pointer note.
+- `WAY-FORWARD.md` — roster lines and the "When … specialists isn't enough" section updated to six; capability list drops infographic layout, image stylization, and design-system authoring (now pack capabilities).
+- `Team Knowledge/SOPs/INDEX.md` — four design-SOP rows removed; Reserved line extended to "SOP-003 onward".
+- `Team Knowledge/Guidelines/INDEX.md` — `GL-003` row removed; replaced with a Reserved note pointing at the Designer Pack.
+- `validation-script.sh` — structural version check moved from the `1.10.x` line to the `2.0.x` line.
+
+### Migration
+
+Updating from 1.10.x to 2.0.0 is **breaking** — the base roster shrinks by three. If you do brand or visual work, install the **Designer Expansion Pack** (Iris, Charta, Pixel + the four design SOPs + `GL-003-design-system`) from the AI Library; it restores the full creative capability as an opt-in pack. Users who do only PKM, journaling, research, automation, or database work need no action — the six-specialist base covers them. Existing session logs that reference the removed agents or SOP-007–010 are left untouched as historical record.
+
+### Version files
+
+- `VERSION` → `2.0.0`
+- `.scaffold-version` → `2.0.0`
+
+## [1.10.2] - 2026-05-15
+
+Restores the seeded sample content the myICOR myPKA course walks through. v1.10.x shipped the `PKM/My Life/`, `PKM/CRM/`, `PKM/Documents/`, `PKM/Journal/`, and `PKM/Images/` folders empty (`.gitkeep` placeholders), but the course curriculum references concrete files inside them by name — `morning-build-session.md`, `ship-mvp-by-q3.md`, and others. Learners following along found the files missing and assumed the download was broken. This release closes that gap. No folder structure, schema, or SOP changes — content only, so v1.10.x validation is unaffected.
+
+### Added
+
+- **`PKM/My Life/` concept samples** — one seeded file per subsection: `Topics/ai-tooling.md`, `Habits/morning-build-session.md`, `Goals/ship-mvp-by-q3.md`, `Projects/side-project-mvp.md`, `Key Elements/health.md`. Each is the canonical shape its concept follows and is cross-linked to the others via `[[wikilinks]]`.
+- **Per-subfolder `INDEX.md`** for each of the five `My Life` subsections (`Topics/`, `Habits/`, `Goals/`, `Projects/`, `Key Elements/`). The course (lesson "Habits — The Rhythms the Team Supports") references these directly.
+- **`PKM/CRM/` samples** — `People/dr-schmidt.md` and `Organizations/dr-schmidt-clinic.md`, the SSOT demo pair the course walks through.
+- **`PKM/Documents/passport.md`** — seeded document-stub sample.
+- **`PKM/Journal/2026/05/2026-05-04-first-day.md`** — seeded journal entry, the one referenced in the Dr. Schmidt demo.
+- **`PKM/Images/2026/05/`** — two seeded sample images (`2026-05-04-dr-schmidt-business-card.png`, `2026-05-04-sample-screenshot.png`), embedded by the CRM and Journal samples.
+- **Course-sample banner** — each seeded file opens with an Obsidian `[!example]` callout marking it as a worked sample to adapt or replace, so it is never mistaken for the learner's own content.
+
+### Changed
+
+- `PKM/My Life/INDEX.md`, `PKM/My Life/README.md` — replaced the "ships empty" / "Dean is seeding…" placeholder copy with the actual seeded-sample listing.
+- `PKM/Documents/INDEX.md`, `PKM/CRM/INDEX.md`, `PKM/Journal/INDEX.md`, `PKM/Images/INDEX.md` — "Active files" sections now list the seeded samples.
+
+### Trust registry
+
+- `Expansions/.trusted-sources` — pinned `slack@1.0.3` (`sha256=6b5d09ad46328af92e7e6d99706033af2304b13825de00ad391691f617756260`). Slack Expansion v1.0.3 is a packaging/docs-only release (JSON manifest, `slack/` folder rename, `install.sh` quarantine clear); `runtime/index.js` is byte-identical to v1.0.2, so Vex's GREEN audit carries over. Restores the WS-003 §2 trust check to GREEN (silent auto-trust) for v1.0.3 installs. Existing `app-developer@1.0.1` and `slack@1.0.2` entries retained. (AUTO-26)
+- Removed `.gitkeep` placeholders from folders that now hold seeded content.
+
+### Version files
+
+- `VERSION` → `1.10.2`
+- `.scaffold-version` → `1.10.2`
+
 ## [1.10.1] - 2026-05-10
 
 Wires v1.10.0's task system and journal SOPs into the agent contracts. v1.10.0 shipped the folder structure, templates, validation script, and 8 SOPs — but the AGENTS.md files were not updated, which meant the boot-walk and journal-read only happened if the LLM discovered the SOPs on its own. v1.10.1 closes that gap. No new SOPs, no new folders, no new behaviors — only contract-level wiring of what v1.10.0 already shipped.

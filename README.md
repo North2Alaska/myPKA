@@ -9,10 +9,10 @@ ICOR, Paperless Movement are registered trademarks. See NOTICE.md
 **An AI powered Personal Knowledge Assistance system, based on our business-proven ICOR methodology. Plain markdown. Any LLM. Yours forever.**
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey.svg)](LICENSE)
-![Version](https://img.shields.io/badge/version-1.10.0-blue)
+![Version](https://img.shields.io/badge/version-2.1.0-blue)
 ![Built on ICOR](https://img.shields.io/badge/built%20on-ICOR-C99A57)
 
-myPKA is a folder. You drop it on your machine, point your LLM at it, and you have a nine-person AI team that organizes your life end to end. **It works on its own.** No database to set up, no SaaS to log into, no vendor to lose your data to.
+myPKA is a folder. You drop it on your machine, point your LLM at it, and you have a six-person AI team that organizes your life end to end. **It works on its own.** No database to set up, no SaaS to log into, no vendor to lose your data to.
 
 **Watch the full walkthrough on YouTube:**
 
@@ -20,15 +20,19 @@ myPKA is a folder. You drop it on your machine, point your LLM at it, and you ha
 
 > **Why this is different from other scaffolds.** Most folder structures are someone's preference dressed up as a system. myPKA is the working slice of **ICOR**, a methodology Paperless Movement S.L. and thousands of professionals world wide have been running their own business on for years. Every folder, every routing decision, every specialist contract maps to a piece of that framework. The structure is not arbitrary. The reasoning is teachable. Both matter when you scale past the first week.
 
-## What's new in v1.10.0
+## What's new in v2.0.0
 
-This release adds three things, all in service of one outcome: **the team picks up where it left off, even across sessions, even when a different specialist takes over.**
+**This is a MAJOR, breaking release.** The base scaffold roster moves from **nine specialists to six**.
 
-- **A markdown-first task system.** Unfinished work gets written down as a plain `.md` file in `Team Knowledge/tasks/`. Folder location is the status. Frontmatter holds the cross-references back to the SOP, workstream, guideline, life entry, session log, and journal entry that give the work its context. Whoever opens the task next is one wikilink away from everything they need.
-- **Per-agent journals.** Each specialist now has a `journal/` inside their team folder. They write a short entry whenever they learn something durable — an anti-pattern, a decision rule, a "next time, do it this way." The next session starts smarter than the last one ended.
-- **An LLM-readable migration changelog.** `CHANGELOG-MIGRATION.md` at the root is a numbered, idempotent recipe any LLM can follow to upgrade an older myPKA folder. The folder is the database; the upgrade story lives in the folder too.
+The three creative specialists — **Iris** (Design System Architect), **Charta** (Infographic Designer), and **Pixel** (Visual Specialist) — and everything they own (their contracts, their per-agent journals, four design SOPs, the `GL-003-design-system` Guideline, and their team-portrait images) come **out of the base scaffold**. They now ship as the optional **Designer Expansion Pack** from the AI Library.
 
-That's it. No new tools, no new dependencies. Just three small additions to the same plain-markdown shape. Additive — v1.9.x folders gain new directories without losing anything.
+The base scaffold now ships exactly six specialists: **Larry, Nolan, Pax, Penn, Mack, and Silas.**
+
+- **Why the change.** The base scaffold is the working slice of ICOR everyone needs — PKM, journaling, research, hiring, automation, database work. Brand and visual work is real work, but it isn't universal. Pulling the creative trio into an opt-in pack keeps the base lean for the majority and gives design-focused users a clean, dedicated pack instead of carrying weight they may never use.
+- **What you get if you do design work.** Install the **Designer Expansion Pack** from the AI Library — it restores Iris, Charta, Pixel, the four design SOPs, and `GL-003-design-system` as a drop-in pack. Nothing is lost; the capability simply moves to opt-in.
+- **Why it's a MAJOR bump.** Removing specialists from the base roster is a breaking structural change under semver. An existing myPKA folder updated from 1.10.x to 2.0.0 will lose the three creative agents from its base roster unless the Designer Expansion Pack is installed. See **Migrating to v2.0.0** below.
+
+Everything else is unchanged — the task system, per-agent journals, and the LLM-readable migration changelog introduced earlier all carry forward. Plain markdown, any LLM, yours forever.
 
 ## Get going now
 
@@ -68,16 +72,16 @@ If you've ever opened a blank Obsidian vault and didn't know where to put anythi
 
 ## Meet the team
 
-Nine specialists ship pre-loaded. **You only ever talk to Larry.** Larry routes.
+Six specialists ship pre-loaded. **You only ever talk to Larry.** Larry routes.
 
 <table>
 <tr>
 <td width="140" align="center"><img src="github/team/larry.png" width="120" alt="Larry the Red Fox - Team Leader and Orchestrator" /></td>
-<td><b>Larry - Team Leader & Orchestrator</b><br/><i>A Red Fox. Sharp ears, sharper instincts.</i><br/><br/>Every request you make lands with Larry first. He clarifies, picks the right specialist, hands off the brief, and synthesizes the answer back to you. He's also the team's <b>Librarian</b> (keeps the wiki clean, fixes broken <code>[[wikilinks]]</code>, enforces the SSOT Golden Rule), <b>Session-Log Author</b> (writes a daily log of what the team did and what changed), and as of v1.10.0, the team's <b>Task Walker</b> (surfaces what's open at session start). Larry never executes specialist work himself - that's the iron rule.</td>
+<td><b>Larry - Team Leader & Orchestrator</b><br/><i>A Red Fox. Sharp ears, sharper instincts.</i><br/><br/>Every request you make lands with Larry first. He clarifies, picks the right specialist, hands off the brief, and synthesizes the answer back to you. He's also the team's <b>Librarian</b> (keeps the wiki clean, fixes broken <code>[[wikilinks]]</code>, enforces the SSOT Golden Rule), <b>Session-Log Author</b> (writes a daily log of what the team did and what changed), and the team's <b>Task Walker</b> (surfaces what's open at session start). Larry never executes specialist work himself - that's the iron rule.</td>
 </tr>
 <tr>
 <td width="140" align="center"><img src="github/team/nolan.png" width="120" alt="Nolan the Pitbull - Talent Acquisition" /></td>
-<td><b>Nolan - Talent Acquisition</b><br/><i>A Pitbull in glasses. Loyal, methodical, allergic to lazy hires.</i><br/><br/>When you outgrow the nine shipped specialists, Nolan handles the hire end-to-end: briefs Pax for research, drafts the new specialist's contract (<code>AGENTS.md</code>), validates against the SOP, and gets your sign-off before adding anyone to the roster. Nolan is the reason your team scales without diluting.</td>
+<td><b>Nolan - Talent Acquisition</b><br/><i>A Pitbull in glasses. Loyal, methodical, allergic to lazy hires.</i><br/><br/>When you outgrow the six shipped specialists, Nolan handles the hire end-to-end: briefs Pax for research, drafts the new specialist's contract (<code>AGENTS.md</code>), validates against the SOP, and gets your sign-off before adding anyone to the roster. Nolan is the reason your team scales without diluting.</td>
 </tr>
 <tr>
 <td width="140" align="center"><img src="github/team/pax.png" width="120" alt="Pax the Raven - Deep Research" /></td>
@@ -95,29 +99,19 @@ Nine specialists ship pre-loaded. **You only ever talk to Larry.** Larry routes.
 <td width="140" align="center"><img src="github/team/silas.png" width="120" alt="Silas - Database Architect" /></td>
 <td><b>Silas - Database Architect</b><br/><i>Schema is destiny. Slugs are primary keys.</i><br/><br/>Silas guards the structural integrity of your knowledge base. He runs external knowledge imports (drop a Notion zip, a Heptabase backup, an Obsidian vault, a Roam graph — Silas runs <code>WS-002</code> and lands the entities in the right folders), audits frontmatter against <code>GL-002</code>, catches schema drift before it spreads, and runs the markdown-to-SQLite conversion (<code>SOP-002</code>) when your myPKA outgrows plain files. Markdown stays canonical; the SQLite mirror is a regenerable performance layer. Silas never invents fields, never silently rewrites content, and never lets ad-hoc YAML keys accumulate.</td>
 </tr>
-<tr>
-<td width="140" align="center"><img src="github/team/charta.png" width="120" alt="Charta - Infographic Designer" /></td>
-<td><b>Charta - Infographic Designer</b><br/><i>Structure over decoration. Code is the canvas.</i><br/><br/>Charta turns information into single-image, scannable visuals. Comparison tables, feature grids, decision guides, process flows, flowcharts, decision trees, timelines, swimlanes, hub-and-spoke diagrams, quadrant matrices, carousels, PDFs from clean HTML. Her canonical skill is <code>SOP-007</code> (build an infographic): structure-first content design via HTML/CSS/SVG, render to PNG/PDF via headless browser. Charta reads from <code>GL-003</code> (the design system) on every task — no ad-hoc palette choices, no random font picks. When a deliverable needs photographic or AI-generated finishing, Charta drafts the structure and hands off to Pixel.</td>
-</tr>
-<tr>
-<td width="140" align="center"><img src="github/team/pixel.png" width="120" alt="Pixel - Visual Specialist" /></td>
-<td><b>Pixel - Visual Specialist</b><br/><i>Every image is built one pixel at a time. Precision matters.</i><br/><br/>Pixel handles image stylization: thumbnails, social images, hero illustrations, quote cards, multi-reference composites. Her canonical skill is <code>SOP-008</code> (generate a styled image): five-part prompt construction, multi-reference handling, three capability paths (local image-gen / Mack-wired external API/MCP / fallback design-brief-for-human). Pixel reads from <code>GL-003</code> for palette, imagery direction, type roles, and voice. When the user's LLM lacks image generation, Pixel routes the connection half to Mack to wire up Gemini / OpenAI Images / Flux / any image-capable MCP, then drives the prompt once it's online.</td>
-</tr>
-<tr>
-<td width="140" align="center"><img src="github/team/iris.png" width="120" alt="Iris - Design System Architect" /></td>
-<td><b>Iris - Design System Architect</b><br/><i>A design system is a living contract. Every hardcoded color is a broken promise.</i><br/><br/>Iris is the brand and design-system specialist. She authors <code>GL-003</code> (the design system: identity, color palette, typography, spacing scale, imagery style, voice samples) through guided sessions with you, never pre-populated with "sensible defaults" you didn't pick. Her canonical skills are <code>SOP-009</code> (author the design system) and <code>SOP-010</code> (audit deliverables against it). The first time you ask for any creative work without GL-003 populated, Larry routes to Iris first to pin the values — once filled, every creative agent reads from here for consistent style.</td>
-</tr>
 </table>
 
-Each specialist has a contract at `Team/<Name> - <Role>/AGENTS.md`, and as of v1.10.0, a `journal/` folder for durable insights. Full routing table at `Team/agent-index.md`.
+Each specialist has a contract at `Team/<Name> - <Role>/AGENTS.md` and a `journal/` folder for durable insights. Full routing table at `Team/agent-index.md`.
+
+> Need brand and visual work — design systems, infographics, stylized images? The **Designer Expansion Pack** adds three creative specialists (Iris, Charta, Pixel) to your team. It's an optional pack from the AI Library, not part of the base six.
 
 > The full Paperless Movement team - including the AI specialists you can add via the **AI Library** - is at [myicor.com](https://myicor.com).
 
 ## What lives where
 
 - `PKM/` is your knowledge. `My Life/` holds the five life concepts (Goals, Habits, Topics, Projects, Key Elements). `Documents/`, `CRM/`, `Images/`, and `Journal/` sit alongside it. Notes connect through `[[wikilinks]]`, not nested folders.
-- `Team/` holds your specialists. One folder per agent. Each has its own `AGENTS.md` and, as of v1.10.0, its own `journal/` for durable cross-session insights.
-- `Team Knowledge/` holds the team's playbook. SOPs are atomic procedures. Workstreams orchestrate multi-agent flows. Guidelines are static reference info. **`tasks/` is new in v1.10.0** and holds unfinished work the team is tracking across sessions (`open/`, `in-progress/`, `done/<YYYY>/<MM>/`, `cancelled/<YYYY>/<MM>/`).
+- `Team/` holds your specialists. One folder per agent. Each has its own `AGENTS.md` and its own `journal/` for durable cross-session insights.
+- `Team Knowledge/` holds the team's playbook. SOPs are atomic procedures. Workstreams orchestrate multi-agent flows. Guidelines are static reference info. `tasks/` holds unfinished work the team is tracking across sessions (`open/`, `in-progress/`, `done/<YYYY>/<MM>/`, `cancelled/<YYYY>/<MM>/`).
 - `Deliverables/` is where the team puts work-in-progress and finished artifacts - research briefs, hire workups, multi-file projects. Time-stamped, ephemeral, the team's working surface. **Pax** drops research here. **Nolan** drops hire workups here. **Larry** collects multi-specialist work here.
 - `Team Inbox/` is your drop zone for raw inputs. Drop screenshots, voice memos, business cards, links, or a quick braindump and the team files them into PKM. *"I have something, not sure where"* goes here. **Penn** usually picks it up, **Larry** routes it.
 - `AGENTS.md` at the root is the source of truth for how the whole team behaves.
@@ -136,11 +130,15 @@ Next session, Larry walks `tasks/open/` and `tasks/in-progress/` first, before d
 
 The journal sits next to this. When the assignee learns something durable while working a task — a build pattern that worked, an anti-pattern they want to remember, a rule of thumb — they write a short entry in their `journal/`. The next time a task references that entry, they re-read their own past thinking before starting. Learning compounds across sessions.
 
-## Migrating from v1.9.x to v1.10.0
+## Migrating to v2.0.0
 
-v1.10.0 is purely additive. v1.9.x folders gain new directories and templates. Nothing existing is moved, renamed, or modified.
+v2.0.0 is a **breaking** upgrade — the base roster shrinks by three. This is the breaking step: updating from 1.10.x removes **Iris, Charta, and Pixel** (plus the four design SOPs and `GL-003-design-system`) from your base scaffold.
 
-Open `CHANGELOG-MIGRATION.md` at the root and ask your LLM to run the recipe. It's nine numbered, idempotent steps. You can audit each one before it runs. After the migration, run `bash validation-script.sh .` from the scaffold root — it exits 0 when the upgrade is structurally complete.
+- **If you do brand or visual work**, install the **Designer Expansion Pack** from the AI Library *before or right after* upgrading. It restores Iris, Charta, Pixel, the four design SOPs, and `GL-003-design-system` as an opt-in pack — full creative capability, nothing lost.
+- **If you do only PKM, journaling, research, hiring, automation, or database work**, no action is needed. The six-specialist base covers you.
+- **Existing session logs** that reference the removed agents or SOP-007–010 are left untouched as a historical record.
+
+Open `CHANGELOG-MIGRATION.md` at the root and ask your LLM to run the recipe — it's numbered and idempotent, and you can audit each step before it runs. After the migration, run `bash validation-script.sh .` from the scaffold root — it exits 0 when the upgrade is structurally complete. See the `[2.0.0]` entry in [CHANGELOG.md](CHANGELOG.md) for the full list of what moved.
 
 ## Principles
 
@@ -177,7 +175,7 @@ The scaffold works on its own. The course is for people who want to understand w
 
 ## AI Library (membership)
 
-Once you've used myPKA for a while, you'll want more than nine specialists. The **AI Library** at [myicor.com](https://myicor.com) is the membership layer where you download **Expansions** — drop-in folders that grow your team. These Expansions are not in this repo and are not planned to be open-sourced:
+Once you've used myPKA for a while, you'll want more than six specialists. The **AI Library** at [myicor.com](https://myicor.com) is the membership layer where you download **Expansions** — drop-in folders that grow your team. These Expansions are not in this repo and are not planned to be open-sourced:
 
 - **Slack Expansion** so the team can read and act on conversations from your workspace.
 - **Obsidian optimizations** including templates, plugins, and views tuned to the scaffold.
@@ -199,11 +197,11 @@ Membership-only is honest, not a gate. The scaffold here is genuinely complete. 
 
 ## Disclaimer
 
-The myPKA scaffold is a teaching artifact, not a production system. It is provided **as is**, without warranty of any kind, express or implied. The authors and copyright holders make no guarantees about fitness for a particular purpose, the behaviour of any LLM you point at the folder, the safety of any AI agent's reads or writes, or the integrity of your data over time.
+The myPKA scaffold is a teaching artifact and a starting point, not a production system. It is provided as is, without warranty of any kind, express or implied. We make no guarantees about fitness for a particular purpose, about how any LLM or AI agent will behave when pointed at this folder, or about the integrity of your data over time.
 
-You are responsible for your own backups, your own data hygiene, your own choice of LLM tools and what you allow them to access on your machine. We are not liable for data loss, business interruption, or any other damages arising from use of this scaffold or its examples. **Use at your own risk.**
+You are responsible for what you do with this scaffold. That includes your own backups, your own data hygiene, your choice of LLM and AI tooling, and what you allow those tools to read or write on your machine. We are not liable for data loss, downtime, broken setups, or any other damage arising from use of the scaffold or its examples. Use at your own risk.
 
-See [LICENSE](LICENSE) for the full disclaimer of warranties and limitation of liability.
+The binding legal terms are in the [LICENSE](LICENSE) (CC BY-NC-SA 4.0), which includes the full disclaimer of warranties and limitation of liability. This section is the plain-English version of what that license already says.
 
 ## Built by
 

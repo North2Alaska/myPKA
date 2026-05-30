@@ -16,7 +16,7 @@ Filename pattern: `SOP-NNN-<title>.md`. See [[GL-001-file-naming-conventions]] f
 | SOP-010 | [[SOP-010-audit-content-for-design-system-compliance]] | Iris | Verify visual deliverables against [[GL-003-design-system]]. Per-deliverable audit checklist, severity classification, report format. Audits surface violations; the user decides what to fix. |
 | SOP-011 | [[SOP-011-grill-with-docs]] | Larry | Stress-test a plan, decision, or design through one-question-at-a-time Socratic interviewing. Capture resolutions inline into a target document; promote decisions to standalone ADRs only when they meet the three-criteria bar (hard to reverse, surprising without context, result of a real trade-off). Reusable by any agent. |
 
-*Reserved (genuinely open for future agents):* SOP-003, SOP-004, SOP-005, SOP-006. Do not back-fill these slots without coordinating across the team.
+*Reserved (genuinely open for future agents):* SOP-003 onward (SOP-003, SOP-004, SOP-005, SOP-006, SOP-007, SOP-008, SOP-009, SOP-010). Do not back-fill these slots without coordinating across the team. SOP-007–010 were vacated when the design SOPs moved into the Designer Expansion Pack — a fresh pack install claims the lowest free slots starting at SOP-003.
 
 ## How to add a new SOP
 
